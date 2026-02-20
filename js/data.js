@@ -2,6 +2,7 @@
    SUBSONIC — Mock DB + Persistence
    - events / artists / spaces are static mocks
    - tickets are persisted in localStorage so they don't vanish
+   - store/cart/orders persisted in localStorage (Practice 02)
    ========================================================= */
 
 window.DB = {
@@ -66,10 +67,44 @@ window.DB = {
     { id: 4, eventId: 3, type: "Food Truck", size: "12x8m", location: "Entrada Norte", pricePerDay: 120, status: "Disponible", services: "Electricidad, agua", notes: "Zona tránsito" },
   ],
 
-  tickets: [] // persisted
+  tickets: [],
+
+  // Store products (mock)
+  products: [
+    {
+      id: 1,
+      name: "Subsonic Hoodie — Black Gold",
+      price: 69,
+      category: "Nuevo",
+      gender: "Unisex",
+      sizes: ["XS","S","M","L","XL"],
+      desc: "Sudadera premium con bordado dorado y acabado festival edition (mock).",
+      images: ["assets/img/event1.jpg","assets/img/event2.jpg","assets/img/event3.jpg"]
+    },
+    {
+      id: 2,
+      name: "Subsonic T-Shirt — White Glow",
+      price: 29,
+      category: "Nuevo",
+      gender: "Hombre",
+      sizes: ["S","M","L","XL"],
+      desc: "Camiseta blanca con impresión glow (mock).",
+      images: ["assets/img/event2.jpg","assets/img/event3.jpg","assets/img/event1.jpg"]
+    },
+    {
+      id: 3,
+      name: "Subsonic Top — Neon Rose",
+      price: 25,
+      category: "Nuevo",
+      gender: "Mujer",
+      sizes: ["XS","S","M","L"],
+      desc: "Top con estética neon y tejido ligero (mock).",
+      images: ["assets/img/event3.jpg","assets/img/event1.jpg","assets/img/event2.jpg"]
+    }
+  ]
 };
 
-// -------------------- Tickets persistence --------------------
+/* -------------------- Tickets persistence -------------------- */
 const TICKETS_KEY = "subsonic_tickets";
 
 function loadTickets(){
@@ -94,10 +129,40 @@ function resetTickets(){
   saveTickets();
 }
 
-// Make available globally (app.js uses these)
 window.loadTickets = loadTickets;
 window.saveTickets = saveTickets;
 window.resetTickets = resetTickets;
 
-// Initialize
+/* -------------------- Store persistence -------------------- */
+const CART_KEY = "subsonic_cart";
+const ORDERS_KEY = "subsonic_orders";
+
+function loadCart(){
+  try{
+    return JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+  }catch{
+    return [];
+  }
+}
+function saveCart(cart){
+  localStorage.setItem(CART_KEY, JSON.stringify(cart || []));
+}
+function loadOrders(){
+  try{
+    return JSON.parse(localStorage.getItem(ORDERS_KEY) || "[]");
+  }catch{
+    return [];
+  }
+}
+function saveOrders(orders){
+  localStorage.setItem(ORDERS_KEY, JSON.stringify(orders || []));
+}
+
+// API global
+window.store = {
+  loadCart, saveCart,
+  loadOrders, saveOrders
+};
+
+/* -------------------- Initialize -------------------- */
 loadTickets();

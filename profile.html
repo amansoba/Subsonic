@@ -3,38 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Subsonic — Perfil</title>
+  <title>Subsonic — Compra</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body data-page="profile">
+<body data-page="pass">
 
 <header>
   <div class="nav">
-    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
+    <a class="brand" href="index.html">
+      <span class="logo"></span><span>Subsonic</span>
+    </a>
     <nav class="navlinks" id="navlinks"></nav>
   </div>
 </header>
 
-<main class="container center">
-  <section class="card" style="max-width:700px;width:100%">
-    <a class="badge" id="backDash" href="#">← Volver</a>
-    <h1 class="h-title">Editar perfil</h1>
+<main class="container" id="passBox">
+  <div class="card">
+    <div class="badge">🎟️ Compra (simulada)</div>
+    <h1 class="h-title" style="margin:10px 0 0 0">Confirmar compra</h1>
+    <div class="hr"></div>
 
-    <form id="profileForm">
-      <div class="field">
-        <label for="pName">Nombre</label>
-        <input id="pName" />
-      </div>
-      <div class="field">
-        <label for="pEmail">Email</label>
-        <input id="pEmail" disabled />
-      </div>
+    <p><strong>Evento:</strong> <span id="pEvent"></span></p>
+    <p><strong>Pase:</strong> <span id="pPass"></span></p>
+    <p class="small" id="pIncludes"></p>
 
-      <div class="right">
-        <button class="btn" type="submit">Guardar cambios</button>
-      </div>
-    </form>
-  </section>
+    <div class="right">
+      <a class="btn secondary" id="backEvent" href="#">Volver</a>
+      <button class="btn" id="confirmPurchase" type="button">Confirmar compra</button>
+    </div>
+  </div>
 </main>
 
 <script src="js/data.js"></script>

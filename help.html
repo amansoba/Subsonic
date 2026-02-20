@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subsonic — Help</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="help">
+
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
+    <nav class="navlinks" id="navlinks"></nav>
+  </div>
+</header>
+
+<main class="container grid grid-2">
+  <section class="card">
+    <h1 class="h-title" style="margin-top:0">FAQ</h1>
+
+    <div class="card soft">
+      <div class="badge">Entradas</div>
+      <p class="small"><strong>¿Cómo cancelo una entrada?</strong><br>Desde “Mis Entradas” → detalle → “Solicitar cancelación” (simulado).</p>
+    </div>
+
+    <div class="card soft" style="margin-top:10px">
+      <div class="badge">Store</div>
+      <p class="small"><strong>¿Cómo hago un pedido?</strong><br>Añade productos al carrito → “Pagar (simulado)” → verás el pedido en “Pedidos”.</p>
+    </div>
+
+    <div class="card soft" style="margin-top:10px">
+      <div class="badge">Proveedor</div>
+      <p class="small"><strong>¿Cómo solicito un espacio?</strong><br>Espacios → ficha → “Solicitar alquiler”.</p>
+    </div>
+  </section>
+
+  <aside class="card">
+    <h2 class="h-title" style="margin-top:0">Contacto</h2>
+    <p class="small">Formulario simulado (sin backend).</p>
+
+    <form id="helpForm">
+      <div class="field">
+        <label>Asunto</label>
+        <input required placeholder="Problema con una entrada, tienda, etc.">
+      </div>
+      <div class="field">
+        <label>Mensaje</label>
+        <textarea required rows="4" placeholder="Describe tu consulta..."></textarea>
+      </div>
+      <div class="right">
+        <button class="btn" type="submit">Enviar</button>
+      </div>
+    </form>
+  </aside>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

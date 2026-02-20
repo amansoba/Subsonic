@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subsonic — Producto</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="product">
+
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
+    <nav class="navlinks" id="navlinks"></nav>
+  </div>
+</header>
+
+<main class="container" id="productBox">
+  <a class="badge" href="store.html">← Volver a Store</a>
+
+  <div class="grid grid-2" style="margin-top:12px">
+    <section class="card">
+      <img id="prMainImg" alt="Producto" style="border-radius:14px;border:1px solid var(--line)">
+      <div class="row" id="prThumbs" style="margin-top:10px"></div>
+    </section>
+
+    <aside class="card">
+      <h1 id="prName" class="h-title" style="margin-top:0"></h1>
+      <p id="prDesc" class="small"></p>
+      <div class="hr"></div>
+
+      <p><strong>Precio:</strong> <span id="prPrice"></span></p>
+
+      <div class="grid grid-2">
+        <div class="field">
+          <label>Talla</label>
+          <select id="prSize"></select>
+        </div>
+        <div class="field">
+          <label>Cantidad</label>
+          <input id="prQty" type="number" min="1" value="1">
+        </div>
+      </div>
+
+      <div class="right">
+        <button class="btn" type="button" id="addToCart">Añadir al carrito</button>
+        <a class="btn secondary" href="cart.html">Ver carrito</a>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

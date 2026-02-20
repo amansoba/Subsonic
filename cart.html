@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subsonic — Carrito</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="cart">
+
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
+    <nav class="navlinks" id="navlinks"></nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="card">
+    <h1 class="h-title" style="margin:0">Carrito</h1>
+    <p class="small">Pasarela de pago simulada: crea un pedido y lo verás en “Pedidos”.</p>
+
+    <div class="hr"></div>
+
+    <div id="cartList" class="grid"></div>
+
+    <div class="hr"></div>
+
+    <div class="row" style="justify-content:space-between">
+      <strong>Total:</strong>
+      <strong id="cartTotal">€0.00</strong>
+    </div>
+
+    <div class="right" style="margin-top:12px">
+      <a class="btn secondary" href="store.html">Seguir comprando</a>
+      <button class="btn" id="checkout" type="button">Pagar (simulado)</button>
+    </div>
+  </div>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

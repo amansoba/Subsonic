@@ -4,6 +4,7 @@
    - Role-based access: visitor / client / provider
    - Query params: ?id=..., ?eventId=...
    - Tickets persisted (localStorage) via data.js
+   - Store + Cart + Orders persisted (localStorage) via data.js
    ========================================================= */
 
 const $ = (sel) => document.querySelector(sel);
@@ -17,6 +18,10 @@ function formatDate(iso){
   if(!iso) return "";
   const [y,m,d] = iso.split("-");
   return `${d}/${m}/${y}`;
+}
+
+function money(n){
+  return `€${Number(n || 0).toFixed(2)}`;
 }
 
 /* -------------------- Session -------------------- */
@@ -44,14 +49,21 @@ function renderNav(){
   const s = getSession();
   const links = [
     { href: "events.html", label: "Eventos" },
-    { href: "#", label: "Merch (prototipo)", action: "merch" }
+    { href: "store.html", label: "Store" },
+    { href: "help.html", label: "Help" },
   ];
+
+  // Badge carrito (si existe localStorage store)
+  const cartCount = (window.store?.loadCart?.() || []).reduce((a,i)=>a+(i.qty||0),0);
+  links.push({ href: "cart.html", label: `Carrito (${cartCount})` });
 
   if(!s){
     links.push({ href:"login.html", label:"My Account" });
   } else if(s.role === "client"){
-    links.push({ href:"client-dashboard.html", label:"Mi Cuenta" });
+    // OJO: tu archivo real es client_dashboard.html (con guion bajo)
+    links.push({ href:"client_dashboard.html", label:"Mi Cuenta" });
     links.push({ href:"tickets.html", label:"Mis Entradas" });
+    links.push({ href:"orders.html", label:"Pedidos" });
     links.push({ href:"#", label:`👤 ${s.name || "Cliente"}`, action:"noop" });
     links.push({ href:"#", label:"Cerrar sesión", action:"logout" });
   } else if(s.role === "provider"){
@@ -75,20 +87,12 @@ function renderNav(){
       });
     }
 
-    if(l.action === "merch"){
-      a.href = "#";
-      a.addEventListener("click",(e)=>{
-        e.preventDefault();
-        alert("Vista Merch no implementada en Práctica 02 (placeholder).");
-      });
-    }
-
     nav.appendChild(a);
   });
 }
 
 /* =========================================================
-   Pages
+Pages
    ========================================================= */
 
 function pageHome(){
@@ -142,7 +146,6 @@ function pageEvents(){
     return okQ && okDate;
   });
 
-  // optional filters UI
   const filterQ = $("#filterQ");
   const filterDate = $("#filterDate");
 
@@ -195,7 +198,6 @@ function pageEventDetail(){
   $("#evMeta").textContent = `${formatDate(ev.date)} • ${ev.venue} • ${ev.city}`;
   $("#evDesc").textContent = ev.desc;
 
-  // artists
   const artistWrap = $("#artistList");
   artistWrap.innerHTML = "";
   ev.artists.forEach(aid=>{
@@ -215,7 +217,6 @@ function pageEventDetail(){
     artistWrap.appendChild(item);
   });
 
-  // passes
   const passWrap = $("#passList");
   passWrap.innerHTML = "";
   ev.passes.forEach(p=>{
@@ -231,7 +232,6 @@ function pageEventDetail(){
     passWrap.appendChild(item);
   });
 
-  // spotify placeholder
   $("#spotifyBox").innerHTML = `
     <div class="card">
       <div class="badge">Spotify Player (placeholder)</div>
@@ -299,9 +299,19 @@ function pageLogin(){
     }
 
     setTimeout(()=>{
-      window.location.href = (role === "client") ? "client-dashboard.html" : "provider-spaces.html";
+      // OJO: client_dashboard.html (guion bajo)
+      window.location.href = (role === "client") ? "client_dashboard.html" : "provider-spaces.html";
     }, 450);
   });
+
+  // Link opcional a recuperar contraseña si existe un anchor con id
+  const fp = $("#forgotLink");
+  if(fp && !fp.dataset.bound){
+    fp.dataset.bound = "1";
+    fp.addEventListener("click",(e)=>{
+      // si tu login ya tiene href, no hace falta
+    });
+  }
 }
 
 function pageRegister(){
@@ -337,6 +347,11 @@ function pageClientDashboard(){
 
   const myTickets = DB.tickets.filter(t=>t.userEmail === s.email);
   $("#ticketsCount").textContent = String(myTickets.length);
+
+  // pedidos (si existe panel)
+  const myOrders = (window.store?.loadOrders?.() || []).filter(o=>o.userEmail===s.email);
+  const ordersCount = $("#ordersCount");
+  if(ordersCount) ordersCount.textContent = String(myOrders.length);
 }
 
 function pagePass(){
@@ -452,7 +467,7 @@ function pageTicketDetail(){
 
   const btn = $("#cancelTicket");
   const toast = $("#ticketToast");
-  btn.disabled = (t.status !== "Activa");
+  if(btn) btn.disabled = (t.status !== "Activa");
 
   if(btn && !btn.dataset.bound){
     btn.dataset.bound = "1";
@@ -491,11 +506,11 @@ function pageProfile(){
       s.name = ($("#pName").value || "").trim() || s.name;
       setSession(s);
       alert("Cambios guardados (simulado).");
-      window.location.href = "client-dashboard.html";
+      window.location.href = "client_dashboard.html";
     });
   }
 
-  $("#backDash").href = "client-dashboard.html";
+  $("#backDash").href = "client_dashboard.html";
 }
 
 function pageProviderSpaces(){
@@ -620,6 +635,254 @@ function pageSpaceRequest(){
   $("#backSpace").href = `space.html?id=${sp.id}`;
 }
 
+/* ============================
+   STORE / CART / ORDERS / HELP
+   ============================ */
+
+function pageStore(){
+  renderNav();
+
+  const grid = $("#productGrid");
+  if(!grid) return;
+
+  const cat = getQueryParam("cat") || "";
+  const filtered = DB.products.filter(p => !cat || p.category === cat || p.gender === cat);
+
+  grid.innerHTML = "";
+  filtered.forEach(p=>{
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="badge">${p.category} • ${p.gender}</div>
+      <h3 class="h-title" style="margin:10px 0 6px 0">${p.name}</h3>
+      <p class="small">${p.desc}</p>
+      <div class="row" style="justify-content:space-between; margin-top:10px">
+        <strong>${money(p.price)}</strong>
+        <a class="btn secondary" href="product.html?id=${p.id}">Ver</a>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+
+  const chips = document.querySelectorAll("[data-cat]");
+  chips.forEach(ch=>{
+    if(ch.dataset.bound) return;
+    ch.dataset.bound = "1";
+    ch.addEventListener("click", ()=>{
+      const v = ch.getAttribute("data-cat");
+      window.location.href = v ? `store.html?cat=${encodeURIComponent(v)}` : "store.html";
+    });
+  });
+
+  const cart = window.store?.loadCart?.() || [];
+  const badge = $("#cartCount");
+  if(badge) badge.textContent = String(cart.reduce((a,i)=>a+(i.qty||0),0));
+}
+
+function pageProduct(){
+  renderNav();
+
+  const id = Number(getQueryParam("id"));
+  const p = DB.products.find(x=>x.id===id);
+  if(!p){
+    $("#productBox").innerHTML = `<div class="card">Producto no encontrado.</div>`;
+    return;
+  }
+
+  $("#prName").textContent = p.name;
+  $("#prDesc").textContent = p.desc;
+  $("#prPrice").textContent = money(p.price);
+
+  const main = $("#prMainImg");
+  const thumbs = $("#prThumbs");
+  if(main) main.src = p.images[0];
+
+  if(thumbs){
+    thumbs.innerHTML = "";
+    p.images.forEach(src=>{
+      const b = document.createElement("button");
+      b.type="button";
+      b.className="btn secondary";
+      b.style.padding="8px 10px";
+      b.textContent="Ver";
+      b.addEventListener("click", ()=> { if(main) main.src = src; });
+      thumbs.appendChild(b);
+    });
+  }
+
+  const sel = $("#prSize");
+  if(sel){
+    sel.innerHTML = "";
+    p.sizes.forEach(s=>{
+      const opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = s;
+      sel.appendChild(opt);
+    });
+  }
+
+  const btn = $("#addToCart");
+  if(btn && !btn.dataset.bound){
+    btn.dataset.bound="1";
+    btn.addEventListener("click", ()=>{
+      const size = $("#prSize")?.value || "M";
+      const qty = Number($("#prQty")?.value) || 1;
+
+      const cart = window.store.loadCart();
+      const key = `${p.id}_${size}`;
+      const item = cart.find(x=>x.key===key);
+
+      if(item) item.qty += qty;
+      else cart.push({ key, productId:p.id, size, qty });
+
+      window.store.saveCart(cart);
+      alert("Añadido al carrito (simulado).");
+      window.location.href = "cart.html";
+    });
+  }
+}
+
+function pageCart(){
+  renderNav();
+
+  const wrap = $("#cartList");
+  const totalEl = $("#cartTotal");
+  if(!wrap || !totalEl) return;
+
+  const cart = window.store.loadCart();
+  wrap.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach((it, idx)=>{
+    const p = DB.products.find(x=>x.id===it.productId);
+    if(!p) return;
+
+    const sub = p.price * (it.qty||0);
+    total += sub;
+
+    const row = document.createElement("div");
+    row.className="card";
+    row.innerHTML = `
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <div class="badge">Talla: ${it.size}</div>
+          <h3 class="h-title" style="margin:8px 0 4px 0">${p.name}</h3>
+          <p class="small">${money(p.price)} • Cantidad: ${it.qty}</p>
+        </div>
+        <div class="right">
+          <strong>${money(sub)}</strong>
+          <button class="btn danger" type="button">Quitar</button>
+        </div>
+      </div>
+    `;
+    row.querySelector("button").addEventListener("click", ()=>{
+      cart.splice(idx,1);
+      window.store.saveCart(cart);
+      pageCart();
+    });
+    wrap.appendChild(row);
+  });
+
+  totalEl.textContent = money(total);
+
+  const checkout = $("#checkout");
+  if(checkout && !checkout.dataset.bound){
+    checkout.dataset.bound="1";
+    checkout.addEventListener("click", ()=>{
+      const s = getSession();
+      if(!s || s.role !== "client"){
+        alert("Necesitas iniciar sesión como Cliente para comprar.");
+        window.location.href = "login.html";
+        return;
+      }
+      if(cart.length === 0){
+        alert("Carrito vacío.");
+        return;
+      }
+
+      const orders = window.store.loadOrders();
+      const id = Date.now();
+
+      orders.push({
+        id,
+        userEmail: s.email,
+        date: new Date().toISOString().slice(0,10),
+        eta: new Date(Date.now()+ 7*24*3600*1000).toISOString().slice(0,10),
+        status: "En preparación",
+        items: cart
+      });
+
+      window.store.saveOrders(orders);
+      window.store.saveCart([]);
+      alert("Pedido realizado (simulado).");
+      window.location.href = "orders.html";
+    });
+  }
+}
+
+function pageOrders(){
+  renderNav();
+  requireRole(["client"]);
+
+  const s = getSession();
+  const list = $("#ordersList");
+  if(!list) return;
+
+  const orders = window.store.loadOrders().filter(o=>o.userEmail===s.email);
+
+  list.innerHTML = "";
+  if(orders.length === 0){
+    list.innerHTML = `<div class="card">No hay pedidos todavía.</div>`;
+    return;
+  }
+
+  orders.forEach(o=>{
+    const card = document.createElement("div");
+    card.className="card";
+    card.innerHTML = `
+      <div class="badge">📦 Pedido #${o.id}</div>
+      <h3 class="h-title" style="margin:10px 0 6px 0">Estado: ${o.status}</h3>
+      <p class="small">Fecha: ${formatDate(o.date)} • Entrega estimada: ${formatDate(o.eta)}</p>
+      <div class="right">
+        <button class="btn secondary" type="button">Reclamar</button>
+      </div>
+    `;
+    card.querySelector("button").addEventListener("click", ()=>{
+      alert("Reclamación enviada (simulada).");
+    });
+    list.appendChild(card);
+  });
+}
+
+function pageHelp(){
+  renderNav();
+
+  const form = $("#helpForm");
+  if(form && !form.dataset.bound){
+    form.dataset.bound="1";
+    form.addEventListener("submit",(e)=>{
+      e.preventDefault();
+      alert("Mensaje enviado (simulado). Te responderemos por email.");
+      form.reset();
+    });
+  }
+}
+
+function pageForgotPassword(){
+  renderNav();
+
+  const form = $("#forgotForm");
+  if(!form || form.dataset.bound) return;
+
+  form.dataset.bound="1";
+  form.addEventListener("submit",(e)=>{
+    e.preventDefault();
+    alert("Si el correo existe, recibirás instrucciones (simulado).");
+    window.location.href = "login.html";
+  });
+}
+
 /* -------------------- Bootstrap per page -------------------- */
 document.addEventListener("DOMContentLoaded", ()=>{
   renderNav();
@@ -633,15 +896,26 @@ document.addEventListener("DOMContentLoaded", ()=>{
     artist: pageArtistDetail,
     login: pageLogin,
     register: pageRegister,
+
+    // OJO: tu HTML es client_dashboard.html
     clientDash: pageClientDashboard,
     profile: pageProfile,
     pass: pagePass,
     purchaseSuccess: pagePurchaseSuccess,
     tickets: pageTickets,
     ticket: pageTicketDetail,
+
     providerSpaces: pageProviderSpaces,
     space: pageSpaceDetail,
     spaceRequest: pageSpaceRequest,
+
+    // Store pages
+    store: pageStore,
+    product: pageProduct,
+    cart: pageCart,
+    orders: pageOrders,
+    help: pageHelp,
+    forgot: pageForgotPassword,
   };
 
   routes[page]?.();

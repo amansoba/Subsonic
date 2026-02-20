@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subsonic — Store</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="store">
+
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
+    <nav class="navlinks" id="navlinks"></nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="row" style="justify-content:space-between; align-items:flex-end">
+    <div>
+      <h1 class="h-title" style="margin:0">Store</h1>
+      <p class="small">Merchandising (mock) con categorías y carrito.</p>
+    </div>
+
+    <a class="btn secondary" href="cart.html">Carrito (<span id="cartCount">0</span>)</a>
+  </div>
+
+  <div class="row" style="margin-top:10px">
+    <span class="badge" style="cursor:pointer" data-cat="">Todos</span>
+    <span class="badge" style="cursor:pointer" data-cat="Nuevo">Nuevo</span>
+    <span class="badge" style="cursor:pointer" data-cat="Hombre">Hombre</span>
+    <span class="badge" style="cursor:pointer" data-cat="Mujer">Mujer</span>
+  </div>
+
+  <div class="hr"></div>
+
+  <section id="productGrid" class="grid grid-3"></section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
