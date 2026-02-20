@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detalle Entrada</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body data-page="ticket">
+
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html">
+      <span class="logo"></span>
+      <span>Subsonic</span>
+    </a>
+    <nav class="navlinks" id="navlinks"></nav>
+  </div>
+</header>
+
+<main class="container" id="ticketBox">
+  <h1>Detalle de Entrada</h1>
+
+  <p><strong>Evento:</strong> <span id="tEvent"></span></p>
+  <p><strong>Pase:</strong> <span id="tPass"></span></p>
+  <p><strong>Fecha compra:</strong> <span id="tDate"></span></p>
+  <p><strong>Estado:</strong> <span id="tStatus"></span></p>
+  <p><strong>Código:</strong> <span id="tCode"></span></p>
+
+  <button class="btn danger" id="cancelTicket">Solicitar cancelación</button>
+  <div id="ticketToast" class="toast"></div>
+
+  <a class="btn secondary" href="tickets.html">Volver</a>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

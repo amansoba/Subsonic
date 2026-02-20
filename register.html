@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Subsonic — Home</title>
+  <title>Registro</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
-<body data-page="home">
+<body data-page="register">
 
 <header>
   <div class="nav">
@@ -20,9 +20,13 @@
 </header>
 
 <main class="container">
-  <h1>SUBSONIC FESTIVAL 2026</h1>
-  <p>Bienvenido a la plataforma oficial del festival.</p>
-  <a class="btn" href="events.html">Ver eventos</a>
+  <h1>Registro</h1>
+  <form id="registerForm">
+    <input type="text" placeholder="Nombre" required />
+    <input type="email" placeholder="Email" required />
+    <input type="password" placeholder="Contraseña" required />
+    <button class="btn" type="submit">Registrarse</button>
+  </form>
 </main>
 
 <script src="js/data.js"></script>

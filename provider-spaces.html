@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestión de Espacios</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body data-page="providerSpaces">
+
+<header>
+  <div class="nav">
+    <a class="brand" href="index.html">
+      <span class="logo"></span>
+      <span>Subsonic</span>
+    </a>
+    <nav class="navlinks" id="navlinks"></nav>
+  </div>
+</header>
+
+<main class="container">
+  <h1 id="helloProvider">Panel Proveedor</h1>
+
+  <form id="spaceFiltersForm">
+    <select id="spEvent"><option value="">Evento</option></select>
+    <select id="spType">
+      <option value="">Tipo</option>
+      <option value="Food Truck">Food Truck</option>
+      <option value="Merch Stand">Merch Stand</option>
+    </select>
+    <select id="spStatus">
+      <option value="">Estado</option>
+      <option value="Disponible">Disponible</option>
+      <option value="Reservado">Reservado</option>
+    </select>
+    <button class="btn">Buscar</button>
+  </form>
+
+  <div id="spacesList"></div>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

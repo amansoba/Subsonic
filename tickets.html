@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Subsonic — Home</title>
+  <title>Mis Entradas</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
-<body data-page="home">
+<body data-page="tickets">
 
 <header>
   <div class="nav">
@@ -20,9 +20,22 @@
 </header>
 
 <main class="container">
-  <h1>SUBSONIC FESTIVAL 2026</h1>
-  <p>Bienvenido a la plataforma oficial del festival.</p>
-  <a class="btn" href="events.html">Ver eventos</a>
+  <h1>Mis Entradas</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Evento</th>
+        <th>Pase</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="ticketsTableBody"></tbody>
+  </table>
+
+  <a class="btn secondary" href="client-dashboard.html">Volver al panel</a>
 </main>
 
 <script src="js/data.js"></script>

@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Subsonic — Home</title>
+  <title>Seleccionar Pase</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
-<body data-page="home">
+<body data-page="pass">
 
 <header>
   <div class="nav">
@@ -19,10 +19,15 @@
   </div>
 </header>
 
-<main class="container">
-  <h1>SUBSONIC FESTIVAL 2026</h1>
-  <p>Bienvenido a la plataforma oficial del festival.</p>
-  <a class="btn" href="events.html">Ver eventos</a>
+<main class="container" id="passBox">
+  <h1>Confirmar Compra</h1>
+
+  <p><strong>Evento:</strong> <span id="pEvent"></span></p>
+  <p><strong>Pase:</strong> <span id="pPass"></span></p>
+  <p id="pIncludes"></p>
+
+  <button class="btn" id="confirmPurchase">Confirmar compra</button>
+  <a class="btn secondary" id="backEvent">Volver</a>
 </main>
 
 <script src="js/data.js"></script>

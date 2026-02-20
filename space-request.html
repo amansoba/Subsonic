@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Subsonic — Home</title>
+  <title>Solicitud Espacio</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
-<body data-page="home">
+<body data-page="spaceRequest">
 
 <header>
   <div class="nav">
@@ -19,10 +19,18 @@
   </div>
 </header>
 
-<main class="container">
-  <h1>SUBSONIC FESTIVAL 2026</h1>
-  <p>Bienvenido a la plataforma oficial del festival.</p>
-  <a class="btn" href="events.html">Ver eventos</a>
+<main class="container" id="reqBox">
+  <h1>Solicitud de Alquiler</h1>
+
+  <p><strong>Espacio:</strong> <span id="reqSpace"></span></p>
+  <p><strong>Precio:</strong> <span id="reqPrice"></span></p>
+
+  <form id="requestForm">
+    <textarea placeholder="Descripción del servicio"></textarea>
+    <button class="btn" type="submit">Enviar solicitud</button>
+  </form>
+
+  <a class="btn secondary" id="backSpace">Volver</a>
 </main>
 
 <script src="js/data.js"></script>
