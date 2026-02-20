@@ -6,68 +6,82 @@
   <title>Subsonic — Home</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body data-page="home">
 
-<header>
-  <div class="nav">
-    <a class="brand" href="index.html">
-      <span class="logo"></span>
-      <span>Subsonic</span>
+<body data-page="home" class="homeTL">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-brand" href="index.html" aria-label="Subsonic Home">
+      <span class="topbar-mark"></span>
     </a>
-    <nav class="navlinks" id="navlinks"></nav>
+
+    <nav class="topbar-menu">
+      <a href="events.html">FESTIVALS & EVENTS</a>
+      <a href="#">EXPERIENCES</a>
+      <a href="#">STORE</a>
+      <a href="#">MUSIC</a>
+      <a href="#">MORE</a>
+    </nav>
+
+    <div class="topbar-actions">
+      <a class="account-pill" href="login.html">MY ACCOUNT</a>
+    </div>
   </div>
 </header>
 
-<main class="container">
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="badge">✨ Festival Experience • Prototipo UI</div>
-      <h1 class="h-title"><span class="glow">SUBSONIC</span> FESTIVAL</h1>
-      <p class="h-sub">Una experiencia audiovisual — estética fantasía, navegación por roles y compra simulada.</p>
-      <div class="row" style="margin-top:12px">
-        <a class="btn" href="events.html">Explorar eventos</a>
-        <a class="btn secondary" href="login.html">My Account</a>
-      </div>
+<main class="heroTL" role="main">
+  <div class="heroTL-bg" aria-hidden="true"></div>
+
+  <div class="heroTL-overlay">
+    <div class="heroTL-center">
+      <div class="heroTL-kicker">A NEW FRONTIER</div>
+      <h1 class="heroTL-title">The world of Subsonic</h1>
+      <p class="heroTL-sub">
+        Enter a magnificent story where the impossible is merely a dream on the verge of becoming reality.
+      </p>
     </div>
-  </section>
 
-  <div class="hr"></div>
+    <section class="heroTL-events" aria-label="Festivals list">
+      <article class="eventTL">
+        <div class="eventTL-date">JULY 25 – 27, 2026</div>
+        <div class="eventTL-name">Subsonic Barcelona</div>
+        <div class="eventTL-loc">PARC DEL FÒRUM • BARCELONA, ES</div>
+        <a class="eventTL-btn" href="events.html">INFO <span aria-hidden="true">›</span></a>
+      </article>
 
-  <section class="card">
-    <h2 class="h-title" style="margin:0 0 10px 0">Búsqueda rápida</h2>
-    <form id="homeSearchForm" class="grid grid-2">
-      <div class="field">
-        <label for="q">Nombre del evento</label>
-        <input id="q" placeholder="Ej: Opening Night" />
-      </div>
-      <div class="field">
-        <label for="date">Fecha</label>
-        <input id="date" type="date" />
-      </div>
-      <div class="right" style="grid-column:1/-1">
-        <button class="btn" type="submit">Buscar</button>
-      </div>
-    </form>
-    <p class="small">* Búsqueda simulada con datos mock (Práctica 02).</p>
-  </section>
+      <div class="heroTL-divider" aria-hidden="true"></div>
 
-  <div class="hr"></div>
+      <article class="eventTL">
+        <div class="eventTL-date">AUGUST 14 – 16, 2026</div>
+        <div class="eventTL-name">Subsonic Valencia</div>
+        <div class="eventTL-loc">CIUTAT DE LES ARTS • VALENCIA, ES</div>
+        <a class="eventTL-btn" href="events.html">INFO <span aria-hidden="true">›</span></a>
+      </article>
 
-  <section>
-    <h2 class="h-title">Destacados</h2>
-    <div id="featuredEvents" class="grid grid-3"></div>
-  </section>
+      <div class="heroTL-divider" aria-hidden="true"></div>
 
-  <div class="hr"></div>
+      <article class="eventTL">
+        <div class="eventTL-date">SEPTEMBER 04 – 06, 2026</div>
+        <div class="eventTL-name">Subsonic Madrid</div>
+        <div class="eventTL-loc">IFEMA LIVE • MADRID, ES</div>
+        <a class="eventTL-btn" href="events.html">INFO <span aria-hidden="true">›</span></a>
+      </article>
+    </section>
+  </div>
 
-  <footer class="small">
-    <div class="row" style="justify-content:space-between">
-      <div>© Subsonic (prototipo académico)</div>
-      <div>IG / X / TikTok (placeholder)</div>
-    </div>
-  </footer>
+  <!-- “Radio” floating widget (simulado) -->
+  <button class="radioTL" type="button" onclick="alert('Radio (simulada) — En práctica futura podría ser un reproductor real')">
+    <span class="radioTL-x" aria-hidden="true">×</span>
+    <span class="radioTL-badge" aria-hidden="true"></span>
+    <span class="radioTL-text">
+      <span class="radioTL-top">ONE WORLD</span>
+      <span class="radioTL-bottom">RADIO</span>
+    </span>
+    <span class="radioTL-play" aria-hidden="true">▶</span>
+  </button>
 </main>
 
+<!-- Scripts globales -->
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
 </body>
