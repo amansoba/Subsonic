@@ -3,38 +3,45 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Solicitud Espacio</title>
+  <title>Subsonic — Solicitud</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body data-page="spaceRequest">
 
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">
-      <span class="logo"></span>
-      <span>Subsonic</span>
-    </a>
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
     <nav class="navlinks" id="navlinks"></nav>
   </div>
 </header>
 
-<main class="container" id="reqBox">
-  <h1>Solicitud de Alquiler</h1>
+<main class="container center" id="reqBox">
+  <section class="card" style="max-width:760px;width:100%">
+    <a class="badge" id="backSpace" href="#">← Volver</a>
+    <h1 class="h-title">Solicitud de alquiler</h1>
 
-  <p><strong>Espacio:</strong> <span id="reqSpace"></span></p>
-  <p><strong>Precio:</strong> <span id="reqPrice"></span></p>
+    <div class="card soft" style="margin:10px 0">
+      <div class="badge">Espacio seleccionado</div>
+      <p style="margin:10px 0 0 0"><strong id="reqSpace"></strong></p>
+      <p class="small" id="reqPrice"></p>
+    </div>
 
-  <form id="requestForm">
-    <textarea placeholder="Descripción del servicio"></textarea>
-    <button class="btn" type="submit">Enviar solicitud</button>
-  </form>
-
-  <a class="btn secondary" id="backSpace">Volver</a>
+    <form id="requestForm">
+      <div class="field">
+        <label>Descripción del servicio</label>
+        <textarea rows="3" placeholder="Qué ofreces, necesidades, etc."></textarea>
+      </div>
+      <div class="field">
+        <label><input type="checkbox" required /> Acepto condiciones (simulado)</label>
+      </div>
+      <div class="right">
+        <button class="btn" type="submit">Enviar solicitud</button>
+      </div>
+    </form>
+  </section>
 </main>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>

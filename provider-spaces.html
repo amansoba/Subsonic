@@ -3,45 +3,63 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Gestión de Espacios</title>
+  <title>Subsonic — Espacios</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body data-page="providerSpaces">
 
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">
-      <span class="logo"></span>
-      <span>Subsonic</span>
-    </a>
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
     <nav class="navlinks" id="navlinks"></nav>
   </div>
 </header>
 
-<main class="container">
-  <h1 id="helloProvider">Panel Proveedor</h1>
+<main class="container grid grid-2">
+  <aside class="card">
+    <h2 id="helloProvider" class="h-title" style="margin-top:0">Panel Proveedor</h2>
 
-  <form id="spaceFiltersForm">
-    <select id="spEvent"><option value="">Evento</option></select>
-    <select id="spType">
-      <option value="">Tipo</option>
-      <option value="Food Truck">Food Truck</option>
-      <option value="Merch Stand">Merch Stand</option>
-    </select>
-    <select id="spStatus">
-      <option value="">Estado</option>
-      <option value="Disponible">Disponible</option>
-      <option value="Reservado">Reservado</option>
-    </select>
-    <button class="btn">Buscar</button>
-  </form>
+    <form id="spaceFiltersForm">
+      <div class="field">
+        <label>Evento</label>
+        <select id="spEvent">
+          <option value="">Cualquiera</option>
+        </select>
+      </div>
 
-  <div id="spacesList"></div>
+      <div class="field">
+        <label>Tipo</label>
+        <select id="spType">
+          <option value="">Cualquiera</option>
+          <option value="Food Truck">Food Truck</option>
+          <option value="Merch Stand">Merch Stand</option>
+          <option value="Bebidas">Bebidas</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Estado</label>
+        <select id="spStatus">
+          <option value="">Cualquiera</option>
+          <option value="Disponible">Disponible</option>
+          <option value="Reservado">Reservado</option>
+        </select>
+      </div>
+
+      <div class="right">
+        <button class="btn" type="submit">Buscar</button>
+      </div>
+    </form>
+  </aside>
+
+  <section>
+    <h1 class="h-title">Gestión de espacios</h1>
+    <p class="small">Consulta espacios y entra a su ficha para solicitar alquiler.</p>
+    <div id="spacesList" class="grid"></div>
+  </section>
 </main>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>

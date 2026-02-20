@@ -3,43 +3,45 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mis Entradas</title>
+  <title>Subsonic — Mis entradas</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body data-page="tickets">
 
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">
-      <span class="logo"></span>
-      <span>Subsonic</span>
-    </a>
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
     <nav class="navlinks" id="navlinks"></nav>
   </div>
 </header>
 
 <main class="container">
-  <h1>Mis Entradas</h1>
+  <div class="card">
+    <h1 class="h-title" style="margin:0">Mis entradas</h1>
+    <p class="small">Listado de entradas compradas (simulado).</p>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Evento</th>
-        <th>Pase</th>
-        <th>Fecha</th>
-        <th>Estado</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody id="ticketsTableBody"></tbody>
-  </table>
+    <div class="hr"></div>
 
-  <a class="btn secondary" href="client-dashboard.html">Volver al panel</a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Evento</th>
+          <th>Pase</th>
+          <th>Fecha compra</th>
+          <th>Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="ticketsTableBody"></tbody>
+    </table>
+
+    <div class="right" style="margin-top:12px">
+      <a class="btn secondary" href="client-dashboard.html">Volver al panel</a>
+    </div>
+  </div>
 </main>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>

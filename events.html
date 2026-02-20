@@ -3,29 +3,45 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Eventos</title>
+  <title>Subsonic — Eventos</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body data-page="events">
 
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">
-      <span class="logo"></span>
-      <span>Subsonic</span>
-    </a>
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
     <nav class="navlinks" id="navlinks"></nav>
   </div>
 </header>
 
-<main class="container">
-  <h1>Listado de Eventos</h1>
-  <div id="eventList"></div>
+<main class="container grid grid-2">
+  <aside class="card">
+    <h2 class="h-title" style="margin-top:0">Filtros</h2>
+    <form id="filtersForm">
+      <div class="field">
+        <label for="filterQ">Buscar por nombre</label>
+        <input id="filterQ" placeholder="Ej: Electro Night" />
+      </div>
+      <div class="field">
+        <label for="filterDate">Fecha</label>
+        <input id="filterDate" type="date" />
+      </div>
+      <div class="right">
+        <button class="btn" type="submit">Aplicar</button>
+      </div>
+    </form>
+    <p class="small">* Filtrado frontend (mock).</p>
+  </aside>
+
+  <section>
+    <h1 class="h-title">Eventos</h1>
+    <p class="small">Selecciona un evento para ver artistas, escaleta y pases.</p>
+    <div id="eventList" class="grid grid-2"></div>
+  </section>
 </main>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>

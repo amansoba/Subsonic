@@ -3,35 +3,49 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Panel Cliente</title>
+  <title>Subsonic — Panel cliente</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body data-page="clientDash">
 
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">
-      <span class="logo"></span>
-      <span>Subsonic</span>
-    </a>
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
     <nav class="navlinks" id="navlinks"></nav>
   </div>
 </header>
 
 <main class="container">
-  <h1 id="helloClient"></h1>
-  <p>Bienvenido a tu panel privado.</p>
-
   <div class="card">
-    <p>Entradas compradas: <strong id="ticketsCount">0</strong></p>
-    <a class="btn" href="tickets.html">Ver mis entradas</a>
-    <a class="btn secondary" href="profile.html">Editar perfil</a>
+    <div class="badge">👤 Área Cliente</div>
+    <h1 id="helloClient" class="h-title" style="margin:10px 0 0 0"></h1>
+    <p class="small">Aquí gestionas perfil y entradas.</p>
+
+    <div class="hr"></div>
+
+    <div class="grid grid-3">
+      <div class="card soft">
+        <div class="badge">🎟️ Entradas</div>
+        <h3 class="h-title" style="margin:10px 0 6px 0"><span id="ticketsCount">0</span> entradas</h3>
+        <a class="btn secondary" href="tickets.html">Ver mis entradas</a>
+      </div>
+
+      <div class="card soft">
+        <div class="badge">🧾 Perfil</div>
+        <p class="small">Editar datos personales (simulado).</p>
+        <a class="btn secondary" href="profile.html">Editar perfil</a>
+      </div>
+
+      <div class="card soft">
+        <div class="badge">✨ Explorar</div>
+        <p class="small">Volver al listado de eventos.</p>
+        <a class="btn" href="events.html">Ir a eventos</a>
+      </div>
+    </div>
   </div>
 </main>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>

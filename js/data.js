@@ -1,13 +1,18 @@
-// Datos MOCK para Práctica 02 (sin backend)
+/* =========================================================
+   SUBSONIC — Mock DB + Persistence
+   - events / artists / spaces are static mocks
+   - tickets are persisted in localStorage so they don't vanish
+   ========================================================= */
+
 window.DB = {
   events: [
     {
       id: 1,
-      name: "Subsonic Festival 2026 - Opening Night",
+      name: "Subsonic Festival 2026 — Opening Night",
       date: "2026-07-25",
       venue: "Main Stage",
       city: "Barcelona",
-      desc: "Noche inaugural con una escaleta orientada a electrónica y visuales. Prototipo de detalle de evento.",
+      desc: "Noche inaugural con electrónica, visuales y una puesta en escena inspirada en fantasía y luz. Prototipo de detalle de evento.",
       image: "assets/img/event1.jpg",
       artists: [1,2,3],
       passes: [
@@ -18,12 +23,12 @@ window.DB = {
     },
     {
       id: 2,
-      name: "Electro Night",
+      name: "Electro Night — Sunset Ceremony",
       date: "2026-07-26",
       venue: "Sunset Stage",
       city: "Barcelona",
-      desc: "Sesión nocturna con artistas invitados. Prototipo de búsqueda y navegación.",
-      image: "assets/img/event1.jpg",
+      desc: "Sesión nocturna con artistas invitados y estética de ritual lumínico. Prototipo de búsqueda y navegación.",
+      image: "assets/img/event2.jpg",
       artists: [2,4],
       passes: [
         { id: 201, name: "General", price: 45, includes: "Acceso general" },
@@ -32,12 +37,12 @@ window.DB = {
     },
     {
       id: 3,
-      name: "Rock Arena",
+      name: "Rock Arena — Fire & Steel",
       date: "2026-07-27",
       venue: "Rock Arena",
       city: "Barcelona",
-      desc: "Conciertos de rock y pop-rock. Vista pensada para mostrar artistas y pases.",
-      image: "assets/img/event1.jpg",
+      desc: "Conciertos de rock y pop-rock con show de fuego (simulado). Vista para mostrar artistas y pases.",
+      image: "assets/img/event3.jpg",
       artists: [3,5],
       passes: [
         { id: 301, name: "General", price: 40, includes: "Acceso general" },
@@ -47,10 +52,10 @@ window.DB = {
   ],
 
   artists: [
-    { id: 1, name: "DJ Nova", genre: "Techno / House", bio: "Artista electrónico con sets energéticos.", topTracks: ["Electric Dreams", "Night Power", "Wake Up", "Bassline"], image: "assets/img/artist1.jpg" },
-    { id: 2, name: "Synth Wave", genre: "EDM", bio: "Sonido synth y festivalero.", topTracks: ["Neon Run", "Pulse", "Afterglow"], image: "assets/img/artist1.jpg" },
-    { id: 3, name: "Beat Killer", genre: "Rock / Fusion", bio: "Banda con directos potentes y mezcla de estilos.", topTracks: ["Rift", "Thunder", "Crowd"], image: "assets/img/artist1.jpg" },
-    { id: 4, name: "Charlotte de Witte (demo)", genre: "Techno", bio: "Referencia del techno moderno (placeholder).", topTracks: ["Track A", "Track B"], image: "assets/img/artist1.jpg" },
+    { id: 1, name: "DJ Nova", genre: "Techno / House", bio: "Sets rápidos, pegada fuerte y subidas de energía pensadas para mainstage.", topTracks: ["Electric Dreams", "Night Power", "Wake Up", "Bassline"], image: "assets/img/artist1.jpg" },
+    { id: 2, name: "Synth Wave", genre: "EDM", bio: "Hook melódico, drops limpios y estética synth. Perfecto para atardecer.", topTracks: ["Neon Run", "Pulse", "Afterglow"], image: "assets/img/artist2.jpg" },
+    { id: 3, name: "Beat Killer", genre: "Rock / Fusion", bio: "Banda potente, mezcla de estilos y directo de festival.", topTracks: ["Rift", "Thunder", "Crowd"], image: "assets/img/artist1.jpg" },
+    { id: 4, name: "Charlotte de Witte (demo)", genre: "Techno", bio: "Referencia del techno moderno (placeholder).", topTracks: ["Track A", "Track B"], image: "assets/img/artist2.jpg" },
     { id: 5, name: "Martin Garrix (demo)", genre: "EDM", bio: "Artista popular (placeholder).", topTracks: ["Track X", "Track Y"], image: "assets/img/artist1.jpg" },
   ],
 
@@ -61,8 +66,38 @@ window.DB = {
     { id: 4, eventId: 3, type: "Food Truck", size: "12x8m", location: "Entrada Norte", pricePerDay: 120, status: "Disponible", services: "Electricidad, agua", notes: "Zona tránsito" },
   ],
 
-  // Entradas simuladas por usuario (se generan al “comprar”)
-  tickets: [
-    // { id, userEmail, eventId, passName, purchaseDate, status, code }
-  ],
+  tickets: [] // persisted
 };
+
+// -------------------- Tickets persistence --------------------
+const TICKETS_KEY = "subsonic_tickets";
+
+function loadTickets(){
+  try{
+    const raw = localStorage.getItem(TICKETS_KEY);
+    DB.tickets = raw ? JSON.parse(raw) : [];
+  }catch(e){
+    DB.tickets = [];
+  }
+}
+
+function saveTickets(){
+  try{
+    localStorage.setItem(TICKETS_KEY, JSON.stringify(DB.tickets || []));
+  }catch(e){
+    // ignore
+  }
+}
+
+function resetTickets(){
+  DB.tickets = [];
+  saveTickets();
+}
+
+// Make available globally (app.js uses these)
+window.loadTickets = loadTickets;
+window.saveTickets = saveTickets;
+window.resetTickets = resetTickets;
+
+// Initialize
+loadTickets();

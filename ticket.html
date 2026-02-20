@@ -3,39 +3,40 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Detalle Entrada</title>
+  <title>Subsonic — Detalle entrada</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body data-page="ticket">
 
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">
-      <span class="logo"></span>
-      <span>Subsonic</span>
-    </a>
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
     <nav class="navlinks" id="navlinks"></nav>
   </div>
 </header>
 
 <main class="container" id="ticketBox">
-  <h1>Detalle de Entrada</h1>
+  <div class="card">
+    <a class="badge" id="backTickets" href="#">← Volver</a>
 
-  <p><strong>Evento:</strong> <span id="tEvent"></span></p>
-  <p><strong>Pase:</strong> <span id="tPass"></span></p>
-  <p><strong>Fecha compra:</strong> <span id="tDate"></span></p>
-  <p><strong>Estado:</strong> <span id="tStatus"></span></p>
-  <p><strong>Código:</strong> <span id="tCode"></span></p>
+    <h1 class="h-title" style="margin:10px 0 0 0">Detalle de entrada</h1>
+    <div class="hr"></div>
 
-  <button class="btn danger" id="cancelTicket">Solicitar cancelación</button>
-  <div id="ticketToast" class="toast"></div>
+    <p><strong>Evento:</strong> <span id="tEvent"></span></p>
+    <p><strong>Pase:</strong> <span id="tPass"></span></p>
+    <p><strong>Fecha compra:</strong> <span id="tDate"></span></p>
+    <p><strong>Estado:</strong> <span id="tStatus"></span></p>
+    <p><strong>Código:</strong> <span id="tCode"></span></p>
 
-  <a class="btn secondary" href="tickets.html">Volver</a>
+    <div class="right">
+      <button class="btn danger" id="cancelTicket" type="button">Solicitar cancelación</button>
+    </div>
+
+    <div class="toast" id="ticketToast"></div>
+  </div>
 </main>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>

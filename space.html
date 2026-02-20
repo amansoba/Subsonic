@@ -3,35 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Detalle Espacio</title>
+  <title>Subsonic — Espacio</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body data-page="space">
 
 <header>
   <div class="nav">
-    <a class="brand" href="index.html">
-      <span class="logo"></span>
-      <span>Subsonic</span>
-    </a>
+    <a class="brand" href="index.html"><span class="logo"></span><span>Subsonic</span></a>
     <nav class="navlinks" id="navlinks"></nav>
   </div>
 </header>
 
 <main class="container" id="spaceBox">
-  <h1 id="spTitle"></h1>
-  <p id="spMeta"></p>
-  <p><strong>Servicios:</strong> <span id="spServices"></span></p>
-  <p><strong>Notas:</strong> <span id="spNotes"></span></p>
-  <p><strong>Estado:</strong> <span id="spStatus"></span></p>
+  <div class="card">
+    <a class="badge" id="backSpaces" href="#">← Volver</a>
 
-  <a class="btn" id="goRequest">Solicitar alquiler</a>
-  <a class="btn secondary" id="backSpaces">Volver</a>
+    <h1 id="spTitle" class="h-title" style="margin:10px 0 0 0"></h1>
+    <p id="spMeta" class="small"></p>
+    <div class="hr"></div>
+
+    <p><strong>Servicios:</strong> <span id="spServices"></span></p>
+    <p><strong>Notas:</strong> <span id="spNotes"></span></p>
+    <p><strong>Estado:</strong> <span id="spStatus"></span></p>
+
+    <div class="right">
+      <a class="btn" id="goRequest" href="#">Solicitar alquiler</a>
+    </div>
+  </div>
 </main>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
-
 </body>
 </html>
