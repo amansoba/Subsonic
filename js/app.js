@@ -920,3 +920,57 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   routes[page]?.();
 });
+
+/* =========================================================
+   Parallax & Hero effects for home page
+   ========================================================= */
+function initHeroParallax() {
+  const heroBg = document.querySelector('.heroTL-bg');
+  const heroOverlay = document.querySelector('.heroTL-overlay');
+  
+  if(!heroBg || !heroOverlay) return;
+  
+  let scrollPos = 0;
+  let ticking = false;
+  
+  function updateParallax() {
+    scrollPos = window.pageYOffset;
+    
+    // Parallax effect - move background slower than scroll
+    if(scrollPos < window.innerHeight) {
+      heroBg.style.transform = `translateY(${scrollPos * 0.5}px)`;
+    }
+    
+    // Fade overlay content on scroll
+    const fadeStart = window.innerHeight * 0.5;
+    const fadeEnd = window.innerHeight * 0.9;
+    
+    if(scrollPos < fadeStart) {
+      heroOverlay.style.opacity = 1;
+    } else if(scrollPos > fadeEnd) {
+      heroOverlay.style.opacity = 0;
+    } else {
+      const fadeProgress = (scrollPos - fadeStart) / (fadeEnd - fadeStart);
+      heroOverlay.style.opacity = 1 - fadeProgress;
+    }
+    
+    ticking = false;
+  }
+  
+  function onScroll() {
+    if(!ticking) {
+      window.requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }
+  
+  window.addEventListener('scroll', onScroll, { passive: true });
+  updateParallax(); // Initial call
+}
+
+// Initialize parallax when DOM is ready
+if(document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHeroParallax);
+} else {
+  initHeroParallax();
+}
