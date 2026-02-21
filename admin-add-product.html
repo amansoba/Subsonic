@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subsonic — Admin: Añadir Producto</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="adminAddProduct">
+
+<header>
+  <div class="nav"><a class="brand" href="index.html"><img src="logo.jpg" alt="Subsonic Logo" class="brand-logo" /><span>Subsonic</span></a>
+    <nav class="navlinks" id="navlinks"></nav>
+  </div>
+</header>
+
+<main class="container">
+  <h1 class="h-title">Añadir Producto</h1>
+  <form id="addProductForm" class="card">
+    <label>Nombre</label>
+    <input name="name" />
+    <label>Tallas (coma separadas)</label>
+    <input name="sizes" placeholder="S,M,L" />
+    <label>Precio</label>
+    <input name="price" type="number" step="0.01" />
+    <label>Imágenes (URLs, coma separadas)</label>
+    <input name="images" />
+    <div style="margin-top:8px"><button class="btn" type="submit">Añadir producto</button></div>
+  </form>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

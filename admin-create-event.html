@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Subsonic — Admin: Crear Evento</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-page="adminCreateEvent">
+
+<header>
+  <div class="nav"><a class="brand" href="index.html"><img src="logo.jpg" alt="Subsonic Logo" class="brand-logo" /><span>Subsonic</span></a>
+    <nav class="navlinks" id="navlinks"></nav>
+  </div>
+</header>
+
+<main class="container">
+  <h1 class="h-title">Crear Evento</h1>
+  <form id="createEventForm" class="card">
+    <label>Nombre del evento</label>
+    <input name="name" required />
+
+    <label>Fecha y hora</label>
+    <input type="datetime-local" name="date" required />
+
+    <label>Localización</label>
+    <input name="location" />
+
+    <label>Imágenes (URLs)</label>
+    <input name="images" placeholder="Separadas por comas" />
+
+    <div class="hr"></div>
+    <h3 class="h-title">Entradas</h3>
+    <div id="adminEntryList">
+      <p class="small">Añade tipos de entradas y precios tras crear el evento (o aquí).</p>
+    </div>
+
+    <div class="hr"></div>
+    <h3 class="h-title">Artistas</h3>
+    <div id="adminArtistList">
+      <p class="small">Vincula artistas (puedes crear nuevos en Admin Artistas).</p>
+    </div>
+
+    <div style="margin-top:8px"><button class="btn" type="submit">Crear</button></div>
+  </form>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

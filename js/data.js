@@ -164,5 +164,41 @@ window.store = {
   loadOrders, saveOrders
 };
 
+/* -------------------- DB persistence -------------------- */
+const DB_KEY = 'subsonic_db';
+
+function saveDB(){
+  try{
+    const payload = {
+      events: DB.events || [],
+      artists: DB.artists || [],
+      spaces: DB.spaces || [],
+      products: DB.products || []
+    };
+    localStorage.setItem(DB_KEY, JSON.stringify(payload));
+  }catch(e){
+    // ignore
+  }
+}
+
+function loadDB(){
+  try{
+    const raw = localStorage.getItem(DB_KEY);
+    if(!raw) return;
+    const saved = JSON.parse(raw);
+    if(saved.events) DB.events = saved.events;
+    if(saved.artists) DB.artists = saved.artists;
+    if(saved.spaces) DB.spaces = saved.spaces;
+    if(saved.products) DB.products = saved.products;
+  }catch(e){
+    // ignore and keep defaults
+  }
+}
+
+window.saveDB = saveDB;
+window.loadDB = loadDB;
+
 /* -------------------- Initialize -------------------- */
+// Load persisted DB first (if any), then tickets
+loadDB();
 loadTickets();

@@ -70,6 +70,10 @@ function renderNav(){
     links.push({ href:"provider-spaces.html", label:"Espacios" });
     links.push({ href:"#", label:`🏷️ ${s.name || "Proveedor"}`, action:"noop" });
     links.push({ href:"#", label:"Cerrar sesión", action:"logout" });
+  } else if(s.role === "admin"){
+    links.push({ href:"admin-edit-event.html", label:"Admin" });
+    links.push({ href:"#", label:`🛠️ ${s.name || "Admin"}`, action:"noop" });
+    links.push({ href:"#", label:"Cerrar sesión", action:"logout" });
   }
 
   nav.innerHTML = "";
@@ -101,7 +105,7 @@ function pageHome(){
   const featured = $("#featuredEvents");
   if(featured){
     featured.innerHTML = "";
-    DB.events.slice(0,3).forEach(ev=>{
+      DB.events.slice(0, 3).forEach(ev => {
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
@@ -140,7 +144,7 @@ function pageEvents(){
   const q = (getQueryParam("q") || "").toLowerCase();
   const date = getQueryParam("date") || "";
 
-  const filtered = DB.events.filter(ev=>{
+    const filtered = DB.events.filter(ev => {
     const okQ = !q || ev.name.toLowerCase().includes(q);
     const okDate = !date || ev.date === date;
     return okQ && okDate;
@@ -307,8 +311,11 @@ function pageLogin(){
     }
 
     setTimeout(()=>{
-      // OJO: client_dashboard.html (guion bajo)
-      window.location.href = (role === "client") ? "client_dashboard.html" : "provider-spaces.html";
+      // Redirect based on role
+      if(role === 'client') window.location.href = 'client_dashboard.html';
+      else if(role === 'provider') window.location.href = 'provider-spaces.html';
+      else if(role === 'admin') window.location.href = 'admin-edit-event.html';
+      else window.location.href = 'index.html';
     }, 450);
   });
 
@@ -991,6 +998,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
     events: pageEvents,
     event: pageEventDetail,
     artist: pageArtistDetail,
+    artists: pageArtists,
+    search: pageSearch,
     login: pageLogin,
     register: pageRegister,
 
@@ -998,6 +1007,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
     clientDash: pageClientDashboard,
     profile: pageProfile,
     pass: pagePass,
+    ticketsPurchase: pageTicketsPurchase,
+    changePassword: pageChangePassword,
     purchaseSuccess: pagePurchaseSuccess,
     purchaseSummary: pagePurchaseSummary,
     tickets: pageTickets,
@@ -1014,6 +1025,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
     orders: pageOrders,
     help: pageHelp,
     forgot: pageForgotPassword,
+
+    // Admin
+    adminCreateEvent: pageAdminCreateEvent,
+    adminEditEvent: pageAdminEditEvent,
+    adminEntries: pageAdminEntries,
+    adminArtists: pageAdminArtists,
+    adminAddSpace: pageAdminAddSpace,
+    adminManageSpaces: pageAdminManageSpaces,
+    adminAddProduct: pageAdminAddProduct,
+    adminEditProduct: pageAdminEditProduct,
   };
 
   routes[page]?.();
@@ -1237,4 +1258,368 @@ function pagePurchaseSummary(){
     ${totalHtml}
   `;
 
+}
+
+/* =========================================================
+   Additional pages: Artists, Search, Tickets Purchase, Change Password, Admin helpers
+   ========================================================= */
+
+function pageArtists(){
+  renderNav();
+  const grid = $('#artistsGrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  DB.artists.forEach(a=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="badge">🎤 ${a.genre}</div>
+      <h4 class="h-title" style="margin:10px 0 6px 0">${a.name}</h4>
+      <p class="small">${a.bio}</p>
+      <div class="right">
+        <a class="btn secondary" href="artist.html?id=${a.id}">Ver</a>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function pageSearch(){
+  renderNav();
+  const input = $('#searchInput');
+  const results = $('#searchResults');
+  if(!results) return;
+  function run(){
+    const q = (input?.value||'').trim().toLowerCase();
+    const filters = Array.from(document.querySelectorAll('[data-filter]:checked')).map(x=>x.getAttribute('data-filter'));
+    results.innerHTML = '';
+    if(!q && filters.length===0){ results.innerHTML = '<div class="card small">Introduce términos de búsqueda o aplica filtros.</div>'; return; }
+
+    const items = [];
+    if(filters.length===0 || filters.includes('event')){
+      DB.events.forEach(ev=>{ if(ev.name.toLowerCase().includes(q) || ev.desc.toLowerCase().includes(q)) items.push({type:'event', data:ev}); });
+    }
+    if(filters.length===0 || filters.includes('artist')){
+      DB.artists.forEach(a=>{ if(a.name.toLowerCase().includes(q) || a.bio.toLowerCase().includes(q)) items.push({type:'artist', data:a}); });
+    }
+    if(filters.length===0 || filters.includes('product')){
+      DB.products.forEach(p=>{ if(p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)) items.push({type:'product', data:p}); });
+    }
+
+    if(items.length===0){ results.innerHTML = '<div class="card">No se encontraron resultados.</div>'; return; }
+
+    items.forEach(it=>{
+      const el = document.createElement('div'); el.className='card';
+      if(it.type==='event'){
+        el.innerHTML = `<div class="badge">📅 ${formatDate(it.data.date)}</div><h4 class="h-title">${it.data.name}</h4><p class="small">${it.data.desc}</p><div class="right"><a class="btn secondary" href="event.html?id=${it.data.id}">Ver</a></div>`;
+      } else if(it.type==='artist'){
+        el.innerHTML = `<div class="badge">🎧 ${it.data.genre}</div><h4 class="h-title">${it.data.name}</h4><p class="small">${it.data.bio}</p><div class="right"><a class="btn secondary" href="artist.html?id=${it.data.id}">Ver</a></div>`;
+      } else {
+        el.innerHTML = `<div class="badge">${it.data.category}</div><h4 class="h-title">${it.data.name}</h4><p class="small">${it.data.desc}</p><div class="right"><a class="btn secondary" href="product.html?id=${it.data.id}">Ver</a></div>`;
+      }
+      results.appendChild(el);
+    });
+  }
+
+  if(input && !input.dataset.bound){ input.dataset.bound='1'; input.addEventListener('input', run); }
+  const checkboxes = document.querySelectorAll('[data-filter]');
+  checkboxes.forEach(cb=>{ if(cb.dataset.bound) return; cb.dataset.bound='1'; cb.addEventListener('change', run); });
+}
+
+function pageTicketsPurchase(){
+  renderNav();
+  const id = Number(getQueryParam('id') || getQueryParam('eventId'));
+  const ev = DB.events.find(e=>e.id===id) || DB.events[0];
+  if(!ev) return;
+  const img = $('#evImage'); if(img) img.src = ev.image || 'assets/img/event1.jpg';
+  const title = $('#evTitle'); if(title) title.textContent = ev.name;
+  const info = $('#evInfo'); if(info) info.textContent = `${formatDate(ev.date)} • ${ev.venue} • ${ev.city}`;
+
+  const pkgs = $('#ticketPackages'); if(pkgs){ pkgs.innerHTML=''; ev.passes.forEach(p=>{
+    const div = document.createElement('div'); div.className='card';
+    div.innerHTML = `
+      <div class="badge">🎟️ ${p.name} • ${money(p.price)}</div>
+      <p class="small">${p.includes}</p>
+      <div class="row" style="justify-content:flex-end; gap:8px">
+        <input type="number" min="1" value="1" class="field ticket-qty" style="width:84px" />
+        <button class="btn" data-pass="${p.id}">Añadir al carrito</button>
+      </div>
+    `;
+    const btn = div.querySelector('button');
+    btn.addEventListener('click', ()=>{
+      const qty = Number(div.querySelector('.ticket-qty').value) || 1;
+      addTicketToCart({ eventId: ev.id, passId: p.id, qty, price: p.price, eventName: ev.name, passName: p.name });
+      showToastMini(`${qty} × ${p.name} añadido al carrito`);
+      renderNav();
+    });
+    pkgs.appendChild(div);
+  }); }
+}
+
+function pageChangePassword(){
+  renderNav();
+  const btn = $('#sendReset');
+  if(!btn) return;
+  if(btn.dataset.bound) return; btn.dataset.bound='1';
+  btn.addEventListener('click', ()=>{
+    const email = ($('#cpEmail')?.value||'').trim();
+    if(!email) return alert('Introduce un correo.');
+    alert('Si el correo existe, recibirás instrucciones (simulado).');
+    window.location.href = 'login.html';
+  });
+}
+
+/* ---------------- Admin lightweight pages ---------------- */
+function pageAdminCreateEvent(){
+  requireRole(['admin']);
+  renderNav();
+  const f = $('#createEventForm');
+  if(!f) return;
+
+  const passesContainer = $('#adminEntryList');
+  const artistsContainer = $('#adminArtistList');
+
+  const eventId = Number(getQueryParam('id')) || 0;
+  let ev = eventId ? DB.events.find(x=>x.id===eventId) : null;
+
+  // Populate form when editing
+  if(ev){
+    f.elements['name'].value = ev.name || '';
+    f.elements['date'].value = ev.date ? `${ev.date}T00:00` : '';
+    f.elements['location'].value = ev.venue || '';
+    f.elements['images'].value = ev.image || '';
+  }
+
+  function renderPasses(){
+    if(!passesContainer) return;
+    passesContainer.innerHTML = '';
+    const list = (ev && ev.passes) ? ev.passes.slice() : [];
+    list.forEach(p=>{
+      const d = document.createElement('div'); d.className='card';
+      d.innerHTML = `<div class="badge">🎟️ ${p.name} • ${money(p.price)}</div><p class="small">${p.includes||''}</p><div class="right"><button class="btn danger btn-del-pass" data-id="${p.id}">Eliminar</button></div>`;
+      d.querySelector('.btn-del-pass').addEventListener('click', ()=>{
+        if(!confirm('Eliminar tipo de entrada?')) return;
+        ev.passes = (ev.passes || []).filter(x=>x.id !== p.id);
+        window.saveDB?.();
+        renderPasses();
+      });
+      passesContainer.appendChild(d);
+    });
+
+    const addCard = document.createElement('div'); addCard.className='card';
+    addCard.innerHTML = `
+      <h4 class="h-title">Añadir tipo de entrada</h4>
+      <div class="field"><label>Nombre</label><input id="newPassName" /></div>
+      <div class="field"><label>Precio</label><input id="newPassPrice" type="number" step="0.01" /></div>
+      <div class="field"><label>Incluye</label><input id="newPassIncludes" /></div>
+      <div class="right"><button class="btn" id="addPassBtn">Añadir</button></div>
+    `;
+    passesContainer.appendChild(addCard);
+    const addBtn = addCard.querySelector('#addPassBtn');
+    addBtn.addEventListener('click', ()=>{
+      const name = (document.getElementById('newPassName')?.value||'').trim();
+      const price = Number(document.getElementById('newPassPrice')?.value||0);
+      const includes = (document.getElementById('newPassIncludes')?.value||'').trim();
+      if(!name) return alert('Nombre de entrada requerido');
+      ev = ev || { id: Date.now(), name:'(temporal)', date:'', venue:'', city:'', desc:'', image:'', artists:[], passes:[] };
+      ev.passes = ev.passes || [];
+      ev.passes.push({ id: Date.now()+Math.floor(Math.random()*999), name, price, includes });
+      window.saveDB?.();
+      renderPasses();
+    });
+  }
+
+  function renderArtists(){
+    if(!artistsContainer) return;
+    artistsContainer.innerHTML = '';
+    const list = DB.artists || [];
+    const wrap = document.createElement('div'); wrap.className='grid grid-2';
+    list.forEach(a=>{
+      const item = document.createElement('label'); item.className='card';
+      const checked = ev && ev.artists && ev.artists.includes(a.id);
+      item.innerHTML = `<input type="checkbox" class="artist-link" data-id="${a.id}" ${checked? 'checked':''}/> <strong>${a.name}</strong><div class="small">${a.genre}</div>`;
+      wrap.appendChild(item);
+    });
+    artistsContainer.appendChild(wrap);
+
+    const addCard = document.createElement('div'); addCard.className='card';
+    addCard.innerHTML = `
+      <h4 class="h-title">Añadir artista</h4>
+      <div class="field"><label>Nombre</label><input id="newArtistName" /></div>
+      <div class="field"><label>Foto URL</label><input id="newArtistPhoto" /></div>
+      <div class="field"><label>Spotify / Link</label><input id="newArtistSpotify" /></div>
+      <div class="field"><label>Biografía</label><input id="newArtistBio" /></div>
+      <div class="right"><button class="btn" id="addArtistInline">Añadir artista</button></div>
+    `;
+    artistsContainer.appendChild(addCard);
+    addCard.querySelector('#addArtistInline').addEventListener('click', ()=>{
+      const name = (document.getElementById('newArtistName')?.value||'').trim();
+      const photo = (document.getElementById('newArtistPhoto')?.value||'').trim();
+      const spotify = (document.getElementById('newArtistSpotify')?.value||'').trim();
+      const bio = (document.getElementById('newArtistBio')?.value||'').trim();
+      if(!name) return alert('Nombre artista requerido');
+      const aid = Date.now()+Math.floor(Math.random()*999);
+      DB.artists.push({ id: aid, name, genre:'', bio, topTracks:[], image: photo||'', spotify: spotify||'' });
+      ev = ev || { id: Date.now(), name:'(temporal)', date:'', venue:'', city:'', desc:'', image:'', artists:[], passes:[] };
+      ev.artists = ev.artists || [];
+      ev.artists.push(aid);
+      window.saveDB?.();
+      renderArtists();
+    });
+  }
+
+  renderPasses();
+  renderArtists();
+
+  if(!f.dataset.bound){
+    f.dataset.bound = '1';
+    f.addEventListener('submit', e=>{
+      e.preventDefault();
+      const fm = new FormData(f);
+      const name = (fm.get('name')||'').trim();
+      const dateVal = fm.get('date') || '';
+      const date = dateVal ? dateVal.split('T')[0] : '';
+      const location = (fm.get('location')||'').trim();
+      const images = (fm.get('images')||'').split(',').map(s=>s.trim()).filter(Boolean);
+      if(!name) return alert('Nombre del evento requerido');
+
+      if(ev){
+        ev.name = name;
+        ev.date = date;
+        ev.venue = location;
+        ev.image = images[0]||ev.image||'';
+        const checked = Array.from(document.querySelectorAll('.artist-link:checked')).map(x=>Number(x.getAttribute('data-id')));
+        ev.artists = checked;
+      } else {
+        const id = Date.now();
+        ev = { id, name, date, venue: location, city:'', desc:'(Creado admin)', image: images[0]||'', artists: [], passes: [] };
+        const checked = Array.from(document.querySelectorAll('.artist-link:checked')).map(x=>Number(x.getAttribute('data-id')));
+        ev.artists = checked;
+        DB.events.push(ev);
+      }
+
+      window.saveDB?.();
+      alert('Evento guardado (simulado)');
+      window.location.href = 'admin-edit-event.html';
+    });
+  }
+}
+
+function pageAdminEditEvent(){
+  requireRole(['admin']);
+  renderNav();
+  const out = $('#adminEventsList');
+  if(!out) return; out.innerHTML = '';
+  if(!DB.events || DB.events.length === 0){
+    out.innerHTML = '<div class="card">No hay eventos.</div>';
+    return;
+  }
+
+  DB.events.forEach(ev=>{
+    const d = document.createElement('div');
+    d.className='card';
+    d.innerHTML = `
+      <div class="badge">📅 ${formatDate(ev.date)}</div>
+      <h4 class="h-title">${ev.name}</h4>
+      <p class="small">${ev.desc || ''}</p>
+      <div class="right">
+        <a class="btn secondary" href="admin-create-event.html?id=${ev.id}">Editar</a>
+        <button class="btn danger btn-del-evt" data-id="${ev.id}">Eliminar</button>
+      </div>
+    `;
+    d.querySelector('.btn-del-evt').addEventListener('click', ()=>{
+      if(!confirm('Eliminar evento permanentemente?')) return;
+      const idx = DB.events.findIndex(x=>x.id === ev.id);
+      if(idx >= 0){ DB.events.splice(idx,1); window.saveDB?.(); pageAdminEditEvent(); }
+    });
+    out.appendChild(d);
+  });
+}
+
+function pageAdminEntries(){
+  requireRole(['admin']);
+  renderNav();
+  const f = $('#addEntryForm');
+  if(!f) return;
+  if(f.dataset.bound) return;
+  f.dataset.bound='1';
+  f.addEventListener('submit', e=>{
+    e.preventDefault();
+    const fm=new FormData(f);
+    const eventId = Number(fm.get('eventId'));
+    const name=fm.get('name');
+    const price=Number(fm.get('price')||0);
+    const stock=Number(fm.get('stock')||0);
+    const ev = DB.events.find(x=>x.id===eventId);
+    if(ev){
+      ev.passes = ev.passes || [];
+      ev.passes.push({ id: Date.now(), name, price, includes: 'Entrada admin' });
+      window.saveDB?.();
+      alert('Tipo de entrada añadido (simulado)');
+      window.location.href='admin-edit-event.html';
+    } else alert('Evento no encontrado');
+  });
+}
+
+function pageAdminArtists(){
+  requireRole(['admin']);
+  renderNav();
+  const f = $('#addArtistForm');
+  const list = $('#adminArtistsList');
+  if(list) list.innerHTML='';
+  // render existing artists
+  (DB.artists || []).forEach(a=>{
+    if(!list) return;
+    const d = document.createElement('div'); d.className='card';
+    d.innerHTML = `<div class="badge">🎤 ${a.genre||''}</div><h4 class="h-title">${a.name}</h4><p class="small">${a.bio||''}</p>`;
+    list.appendChild(d);
+  });
+
+  if(!f) return;
+  if(!f.dataset.bound){
+    f.dataset.bound='1';
+    f.addEventListener('submit', e=>{
+      e.preventDefault();
+      const fm=new FormData(f);
+      const name=fm.get('name');
+      const photo=fm.get('photo');
+      const bio=fm.get('bio');
+      const spotify=fm.get('spotify');
+      DB.artists.push({ id: Date.now(), name, genre:'', bio, topTracks:[], image: photo||'', spotify: spotify||'' });
+      window.saveDB?.();
+      alert('Artista añadido (simulado)');
+      window.location.href='admin-artists.html';
+    });
+  }
+}
+
+function pageAdminAddSpace(){
+  requireRole(['admin']);
+  renderNav();
+  const f = $('#addSpaceForm'); if(!f) return; if(f.dataset.bound) return; f.dataset.bound='1'; f.addEventListener('submit', e=>{ e.preventDefault(); const fm=new FormData(f); const name=fm.get('name'); const desc=fm.get('desc'); const price=Number(fm.get('price')||0); const image=fm.get('image'); DB.spaces.push({ id: Date.now(), eventId: null, type:name, size:'', location:desc, pricePerDay: price, status:'Disponible', services:'', notes:'', }); window.saveDB?.(); alert('Espacio añadido (simulado)'); window.location.href='admin-manage-spaces.html'; }); }
+
+function pageAdminManageSpaces(){
+  requireRole(['admin']);
+  renderNav();
+  const list = $('#adminSpacesList'); if(!list) return; list.innerHTML=''; DB.spaces.forEach(sp=>{ const d=document.createElement('div'); d.className='card'; d.innerHTML=`<div class="badge">${sp.type} • €${sp.pricePerDay}</div><h4 class="h-title">${sp.location}</h4><p class="small">Estado: ${sp.status}</p>`; list.appendChild(d); }); }
+
+function pageAdminAddProduct(){
+  requireRole(['admin']);
+  renderNav();
+  const f=$('#addProductForm'); if(!f) return; if(f.dataset.bound) return; f.dataset.bound='1'; f.addEventListener('submit', e=>{ e.preventDefault(); const fm=new FormData(f); const name=fm.get('name'); const sizes=(fm.get('sizes')||'').split(',').map(s=>s.trim()).filter(Boolean); const price=Number(fm.get('price')||0); const images=(fm.get('images')||'').split(',').map(s=>s.trim()).filter(Boolean); DB.products.push({ id: Date.now(), name, price, category:'Nuevo', gender:'Unisex', sizes, desc:'(creado admin)', images }); window.saveDB?.(); alert('Producto añadido (simulado)'); window.location.href='admin-edit-product.html'; }); }
+
+function pageAdminEditProduct(){
+  requireRole(['admin']);
+  renderNav();
+  const out = $('#adminProductsList'); if(!out) return; out.innerHTML='';
+  (DB.products || []).forEach(p=>{
+    const d=document.createElement('div'); d.className='card';
+    d.innerHTML=`<div class="badge">${p.category}</div><h4 class="h-title">${p.name}</h4><p class="small">${money(p.price)}</p><div class="right"><button class="btn danger btn-del-prod" data-id="${p.id}">Eliminar</button></div>`;
+    d.querySelector('.btn-del-prod').addEventListener('click', ()=>{
+      if(!confirm('Eliminar producto?')) return;
+      const idx = DB.products.findIndex(x=>x.id===p.id);
+      if(idx>=0){ DB.products.splice(idx,1); window.saveDB?.(); pageAdminEditProduct(); }
+    });
+    out.appendChild(d);
+  });
 }
