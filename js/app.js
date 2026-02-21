@@ -672,20 +672,52 @@ function pageStore(){
   const cat = getQueryParam("cat") || "";
   const filtered = DB.products.filter(p => !cat || p.category === cat || p.gender === cat);
 
+  // New store layout: large visual cards inspired by Tomorrowland
+  grid.classList.remove('grid-3');
+  grid.classList.add('store-grid');
   grid.innerHTML = "";
+
   filtered.forEach(p=>{
-    const card = document.createElement("div");
-    card.className = "card";
+    const card = document.createElement("article");
+    card.className = "store-card card";
+    const img = (p.images && p.images.length) ? p.images[0] : 'assets/img/event1.jpg';
     card.innerHTML = `
-      <div class="badge">${p.category} • ${p.gender}</div>
-      <h3 class="h-title" style="margin:10px 0 6px 0">${p.name}</h3>
-      <p class="small">${p.desc}</p>
-      <div class="row" style="justify-content:space-between; margin-top:10px">
-        <strong>${money(p.price)}</strong>
-        <a class="btn secondary" href="product.html?id=${p.id}">Ver</a>
+      <div class="store-media" style="background-image:url('${img}')"></div>
+      <div class="store-overlay">
+        <div>
+          <div class="badge">${p.category} • ${p.gender}</div>
+          <h3 class="h-title">${p.name}</h3>
+          <p class="small">${p.desc}</p>
+        </div>
+        <div class="store-actions">
+          <strong class="price">${money(p.price)}</strong>
+          <div class="row">
+            <a class="btn" href="product.html?id=${p.id}">Ver</a>
+            <button class="btn secondary add-quick" data-id="${p.id}">Añadir</button>
+          </div>
+        </div>
       </div>
     `;
+
     grid.appendChild(card);
+  });
+
+  // bind quick add buttons
+  grid.querySelectorAll('.add-quick').forEach(b=>{
+    if(b.dataset.bound) return;
+    b.dataset.bound = '1';
+    b.addEventListener('click', ()=>{
+      const pid = Number(b.getAttribute('data-id'));
+      const prod = DB.products.find(x=>x.id===pid);
+      if(!prod) return;
+      const cart = window.store.loadCart();
+      const key = `${prod.id}_M`;
+      const item = cart.find(x=>x.key===key);
+      if(item) item.qty += 1; else cart.push({ key, productId:prod.id, size:'M', qty:1 });
+      window.store.saveCart(cart);
+      const badge = $("#cartCount"); if(badge) badge.textContent = String(cart.reduce((a,i)=>a+(i.qty||0),0));
+      showToastMini('Añadido al carrito');
+    });
   });
 
   const chips = document.querySelectorAll("[data-cat]");
@@ -712,23 +744,26 @@ function pageProduct(){
     $("#productBox").innerHTML = `<div class="card">Producto no encontrado.</div>`;
     return;
   }
-
+  // Enhanced product detail view
   $("#prName").textContent = p.name;
   $("#prDesc").textContent = p.desc;
   $("#prPrice").textContent = money(p.price);
 
   const main = $("#prMainImg");
   const thumbs = $("#prThumbs");
-  if(main) main.src = p.images[0];
+  if(main) main.src = (p.images && p.images[0]) || 'assets/img/event1.jpg';
 
   if(thumbs){
     thumbs.innerHTML = "";
     p.images.forEach(src=>{
-      const b = document.createElement("button");
-      b.type="button";
-      b.className="btn secondary";
-      b.style.padding="8px 10px";
-      b.textContent="Ver";
+      const b = document.createElement("img");
+      b.className = 'thumb-img';
+      b.style.width = '84px';
+      b.style.height = '84px';
+      b.style.objectFit = 'cover';
+      b.style.borderRadius = '10px';
+      b.style.cursor = 'pointer';
+      b.src = src;
       b.addEventListener("click", ()=> { if(main) main.src = src; });
       thumbs.appendChild(b);
     });
@@ -737,7 +772,7 @@ function pageProduct(){
   const sel = $("#prSize");
   if(sel){
     sel.innerHTML = "";
-    p.sizes.forEach(s=>{
+    (p.sizes || ['M']).forEach(s=>{
       const opt = document.createElement("option");
       opt.value = s;
       opt.textContent = s;

@@ -202,3 +202,50 @@ window.loadDB = loadDB;
 // Load persisted DB first (if any), then tickets
 loadDB();
 loadTickets();
+
+// --- Auto-generate demo products from fotos_store if not already generated ---
+;(function generateDemoProducts(){
+  try{
+    const already = (DB.products||[]).some(p=>p.meta && p.meta.generatedFromFotos);
+    if(already) return; // avoid duplicating on subsequent loads
+
+    // List of demo images inside the workspace folder 'fotos_store'
+    const fotos = [
+      "fotos_store/s1.jpg",
+      "fotos_store/s2.jpg",
+      "fotos_store/s3.jpg",
+      "fotos_store/s4.jpg",
+      "fotos_store/s5.jpg",
+      "fotos_store/s6.jpg",
+    ];
+
+    const nextId = (() => {
+      const all = (DB.products||[]).map(p=>p.id||0).concat((DB.events||[]).map(e=>e.id||0));
+      return all.length ? Math.max(...all)+1 : 1;
+    })();
+
+    const genders = ["Unisex","Hombre","Mujer"];
+    const sizes = ["XS","S","M","L","XL"];
+
+    fotos.forEach((img, idx)=>{
+      const id = nextId + idx;
+      DB.products.push({
+        id,
+        name: `Demo Tee ${idx+1}`,
+        price: 19 + (idx*5),
+        category: "Ropa",
+        gender: genders[idx % genders.length],
+        sizes,
+        desc: "Prenda demo generada automáticamente para la tienda. Ajusta título, descripción y precio desde el administrador.",
+        images: [img],
+        meta: { generatedFromFotos: true }
+      });
+    });
+
+    // persist the new products so they survive reloads
+    saveDB();
+  }catch(e){
+    // ignore generation errors in constrained environments
+    console.warn('Demo product generation failed', e);
+  }
+})();

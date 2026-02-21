@@ -1724,3 +1724,53 @@ footer{
     letter-spacing: 1px;
   }
 }
+
+/* =================== New Store Styles (Tomorrowland-inspired base) =================== */
+.store-grid{
+  display:grid;
+  gap:18px;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+}
+@media (max-width:900px){ .store-grid{ grid-template-columns: 1fr; } }
+
+.store-card{
+  padding:0;
+  overflow:hidden;
+  position:relative;
+  min-height: 320px;
+  display:flex;
+  flex-direction:column;
+}
+
+.store-media{
+  flex:1 1 auto;
+  background-size: cover;
+  background-position: center;
+  min-height: 220px;
+}
+
+.store-overlay{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.35));
+  transform: translateY(-6px);
+}
+
+.store-card .h-title{ margin:6px 0 4px 0; font-size:18px }
+.store-card .small{ color: rgba(255,255,255,0.86); font-size:13px; }
+
+.store-card:hover{ transform: translateY(-6px); box-shadow: 0 24px 80px rgba(0,0,0,0.6); }
+
+.store-actions{ display:flex; gap:12px; align-items:center }
+.store-actions .price{ font-size:18px; font-weight:900 }
+
+.thumb-img{ border: 1px solid rgba(255,255,255,0.06); }
+
+/* small helper for toast used in quick add */
+.toast-inline{
+  display:inline-block; padding:8px 10px; border-radius:8px; background: linear-gradient(90deg,var(--gold1),var(--gold2)); color:#120f0a; font-weight:800;
+}
+
+/* End new store styles */
