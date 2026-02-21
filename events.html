@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Subsonic — Eventos</title>
+  <title>Subsonic — Festivales</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body data-page="events">
@@ -17,33 +17,258 @@
   </div>
 </header>
 
-<main class="container grid grid-2">
-  <aside class="card">
-    <h2 class="h-title" style="margin-top:0">Filtros</h2>
-    <form id="filtersForm">
-      <div class="field">
-        <label for="filterQ">Buscar por nombre</label>
-        <input id="filterQ" placeholder="Ej: Electro Night" />
-      </div>
-      <div class="field">
-        <label for="filterDate">Fecha</label>
-        <input id="filterDate" type="date" />
-      </div>
-      <div class="right">
-        <button class="btn" type="submit">Aplicar</button>
-      </div>
-    </form>
-    <p class="small">* Filtrado frontend (mock).</p>
-  </aside>
+<main>
+  <!-- Festival Hero Section -->
+  <div class="festival-hero">
+    <div class="festival-hero-overlay"></div>
+    <div class="festival-hero-content">
+      <h1>FESTIVALS & EVENTS</h1>
+      <p>Vive la magia de Subsonic alrededor del mundo. Experiencias inmersivas, escenarios épicos y la mejor música electrónica.</p>
+    </div>
+  </div>
 
-  <section>
-    <h1 class="h-title">Eventos</h1>
-    <p class="small">Selecciona un evento para ver artistas, escaleta y pases.</p>
-    <div id="eventList" class="grid grid-2"></div>
-  </section>
+  <div class="container">
+    <!-- Festival Selector -->
+    <div class="festival-selector" style="margin: 40px 0;">
+      <h2 class="h-title" style="margin: 0 0 24px 0; text-align: center;">Elige Tu Festival</h2>
+      <div class="festival-tabs">
+        <button class="festival-tab active" data-festival="all">Todos</button>
+        <button class="festival-tab" data-festival="spain">España</button>
+        <button class="festival-tab" data-festival="winter">Invierno</button>
+        <button class="festival-tab" data-festival="world">Mundo</button>
+      </div>
+    </div>
+
+    <!-- Festivals Grid -->
+    <div class="festivals-grid">
+
+      <!-- Subsonic Barcelona -->
+      <div class="festival-card" data-festival="spain barcelona" data-region="spain">
+        <div class="festival-card-image">
+          <div class="festival-card-overlay">
+            <span class="festival-badge">JULIO 2026</span>
+          </div>
+        </div>
+        <div class="festival-card-content">
+          <h3>Subsonic Barcelona</h3>
+          <div class="festival-meta">
+            <span>📍 PARC DEL FÒRUM • Barcelona, ES</span>
+            <span>📅 JULIO 25 – 27, 2026</span>
+          </div>
+          <p class="festival-description">
+            La experiencia definitiva de Subsonic en la Costa Mediterránea. Un fin de semana de tres días donde los seis reinos eleméntales cobran vida en escenarios de fantasía pura.
+          </p>
+          <div class="festival-features">
+            <span>🎭 Tema: 6 Emociones Primarias</span>
+            <span>🎵 200+ Artistas</span>
+            <span>🎪 5 Escenarios Temáticos</span>
+          </div>
+          <a href="festival-barcelona.html" class="btn" style="width: 100%; margin-top: 16px;">Más Información</a>
+        </div>
+      </div>
+
+      <!-- Subsonic Valencia -->
+      <div class="festival-card" data-festival="spain valencia" data-region="spain">
+        <div class="festival-card-image">
+          <div class="festival-card-overlay">
+            <span class="festival-badge">AGOSTO 2026</span>
+          </div>
+        </div>
+        <div class="festival-card-content">
+          <h3>Subsonic Valencia</h3>
+          <div class="festival-meta">
+            <span>📍 CIUTAT DE LES ARTS • Valencia, ES</span>
+            <span>📅 AGOSTO 14 – 16, 2026</span>
+          </div>
+          <p class="festival-description">
+            Sumergido en la arquitectura futurista de la Ciudad de Artes y Ciencias. Valencia se transforma en un universo de luz, sonido y emociones puras.
+          </p>
+          <div class="festival-features">
+            <span>🌃 Escenarios Futuristas</span>
+            <span>🎵 180+ DJs</span>
+            <span>✨ Efectos Audiovisuales 4K</span>
+          </div>
+          <a href="festival-valencia.html" class="btn" style="width: 100%; margin-top: 16px;">Más Información</a>
+        </div>
+      </div>
+
+      <!-- Subsonic Madrid -->
+      <div class="festival-card" data-festival="spain madrid" data-region="spain">
+        <div class="festival-card-image">
+          <div class="festival-card-overlay">
+            <span class="festival-badge">SEPTIEMBRE 2026</span>
+          </div>
+        </div>
+        <div class="festival-card-content">
+          <h3>Subsonic Madrid</h3>
+          <div class="festival-meta">
+            <span>📍 IFEMA LIVE • Madrid, ES</span>
+            <span>📅 SEPTIEMBRE 04 – 06, 2026</span>
+          </div>
+          <p class="festival-description">
+            El cierre de la temporada en España. Madrid vibra al ritmo del mejor techno y house europeo en una experiencia de tres noches sin límites.
+          </p>
+          <div class="festival-features">
+            <span>🎛️ Especialización Techno</span>
+            <span>🎵 150+ Artistas</span>
+            <span>🌃 Festival Urbano</span>
+          </div>
+          <a href="festival-madrid.html" class="btn" style="width: 100%; margin-top: 16px;">Más Información</a>
+        </div>
+      </div>
+
+      <!-- Subsonic Winter -->
+      <div class="festival-card" data-festival="winter" data-region="winter">
+        <div class="festival-card-image">
+          <div class="festival-card-overlay">
+            <span class="festival-badge">ENERO 2027</span>
+          </div>
+        </div>
+        <div class="festival-card-content">
+          <h3>Subsonic Winter</h3>
+          <div class="festival-meta">
+            <span>❄️ ALPES FRANCESES • Chamonix, FR</span>
+            <span>📅 ENERO 14 – 17, 2027</span>
+          </div>
+          <p class="festival-description">
+            En lo alto de las montañas nevadas de los Alpes. Un festival único donde la música electrónica se mezcla con el lujo alpino y la belleza natural extrema.
+          </p>
+          <div class="festival-features">
+            <span>⛷️ Festival Alpino</span>
+            <span>🎵 100+ Artistas</span>
+            <span>🏔️ Vistas Panorámicas</span>
+          </div>
+          <a href="festival-winter.html" class="btn" style="width: 100%; margin-top: 16px;">Más Información</a>
+        </div>
+      </div>
+
+      <!-- Subsonic Brasil -->
+      <div class="festival-card" data-festival="world brasil" data-region="world">
+        <div class="festival-card-image">
+          <div class="festival-card-overlay">
+            <span class="festival-badge" style="background: linear-gradient(135deg, #00ff00, #ffff00);">MARZO 2027</span>
+          </div>
+        </div>
+        <div class="festival-card-content">
+          <h3>Subsonic Brasil</h3>
+          <div class="festival-meta">
+            <span>📍 RIO DE JANEIRO • Brasil</span>
+            <span>📅 ABRIL 21 – 24, 2027</span>
+          </div>
+          <p class="festival-description">
+            La energía de Sud América se apodera de Subsonic. Un festival cargado de ritmo africano, samba electrónica y la pasión característica brasileña.
+          </p>
+          <div class="festival-features">
+            <span>🇧🇷 Ritmo Latinoamericano</span>
+            <span>🎵 120+ Artistas</span>
+            <span>🔥 Energía Tropical</span>
+          </div>
+          <a href="festival-brasil.html" class="btn" style="width: 100%; margin-top: 16px;">Más Información</a>
+        </div>
+      </div>
+
+      <!-- Subsonic Asia -->
+      <div class="festival-card" data-festival="world asia" data-region="world">
+        <div class="festival-card-image">
+          <div class="festival-card-overlay">
+            <span class="festival-badge" style="background: linear-gradient(135deg, #ff6b35, #f7931e);">MAYO 2027</span>
+          </div>
+        </div>
+        <div class="festival-card-content">
+          <h3>Subsonic Asia</h3>
+          <div class="festival-meta">
+            <span>📍 BALI • Indonesia</span>
+            <span>📅 SEPTIEMBRE 09 – 12, 2027</span>
+          </div>
+          <p class="festival-description">
+            La experiencia mística de Oriente se encuentra con la tecnología occidente. Bangkok se transforma en templos de luz donde la música y la espiritualidad convergen.
+          </p>
+          <div class="festival-features">
+            <span>🏯 Fusión Oriental-Occidental</span>
+            <span>🎵 100+ Artistas</span>
+            <span>🌅 Experiencia Mística</span>
+          </div>
+          <a href="festival-asia.html" class="btn" style="width: 100%; margin-top: 16px;">Más Información</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Festival Info Section -->
+    <div class="festival-info" style="margin: 60px 0;">
+      <div class="hr"></div>
+      <h2 class="h-title" style="text-align: center; margin: 40px 0;">Festival Subsonic: Experiencia Global</h2>
+      
+      <div class="grid grid-3" style="margin-top: 30px;">
+        <div class="info-card">
+          <div class="info-icon">🌍</div>
+          <h3>Comunidad Global</h3>
+          <p>Únete a más de 200,000 personas de todo el mundo en festivales que trascienden fronteras. Somos una comunidad unida bajo el lema: "Vive Hoy, Ama Mañana, Únete Por Siempre"</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🎪</div>
+          <h3>Producción Épica</h3>
+          <p>Escenarios temáticos detallados, pirotecnia de clase mundial, sistemas de iluminación 4K y efectos audiovisuales que transforman cada espacio en un mundo de fantasía.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🎵</div>
+          <h3>Línea de Artistas</h3>
+          <p>Desde headliners internacionales hasta talentos emergentes. Música para todos: EDM, techno, trance, drum and bass, house y mucho más en múltiples escenarios.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🎭</div>
+          <h3>Narrativa Temática</h3>
+          <p>Cada edición cuenta una historia única. Escenarios que cumplen una misión narrativa. 2026 explora las seis emociones primarias de la experiencia humana.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🎫</div>
+          <h3>Gestión de Tickets</h3>
+          <p>Sistema transparente de pre-registro, gestión de entradas personalizadas y opciones de Global Journey (entrada + alojamiento + transporte) para máxima comodidad.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">💎</div>
+          <h3>Experiencia VIP</h3>
+          <p>Lounges exclusivos, acceso prioritario, pulseras RFID cashless y paquetes all-inclusive. Vive Subsonic como siempre quisiste.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Practical Info CTA -->
+    <div style="text-align: center; padding: 40px; background: rgba(255,255,255,0.03); border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); margin: 40px 0;">
+      <h2 class="h-title">Información Práctica</h2>
+      <p style="color: rgba(255,255,255,0.78); margin: 16px 0 24px;">Horarios, cómo llegar, preguntas frecuentes y toda la información que necesitas.</p>
+      <a href="help.html" class="btn">Ir a FAQ & Practical</a>
+    </div>
+
+  </div>
 </main>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
+<script>
+// Festival filtering
+document.querySelectorAll('.festival-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const festival = tab.dataset.festival;
+    
+    // Update active tab
+    document.querySelectorAll('.festival-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    
+    // Filter cards
+    document.querySelectorAll('.festival-card').forEach(card => {
+      if (festival === 'all') {
+        card.style.display = '';
+        card.classList.add('fade-in');
+      } else if (card.dataset.festival.includes(festival)) {
+        card.style.display = '';
+        card.classList.add('fade-in');
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+</script>
 </body>
 </html>

@@ -225,10 +225,18 @@ function pageEventDetail(){
     item.innerHTML = `
       <div class="badge">🎟️ ${p.name} • €${p.price}</div>
       <p class="small" style="margin:10px 0">${p.includes}</p>
-      <div class="right">
-        <a class="btn" href="pass.html?eventId=${ev.id}&passId=${p.id}">Comprar</a>
+      <div class="row" style="justify-content:flex-end; gap:8px">
+        <a class="btn" href="pass.html?eventId=${ev.id}&passId=${p.id}">Comprar ahora</a>
+        <button class="btn secondary add-to-cart" type="button">Añadir al carrito</button>
       </div>
     `;
+
+    const btn = item.querySelector('.add-to-cart');
+    btn.addEventListener('click', ()=>{
+      // open modal to choose quantity for event pass
+      showPassModal(ev.name, p.name, p.price, { eventId: ev.id, passId: p.id });
+    });
+
     passWrap.appendChild(item);
   });
 
@@ -487,6 +495,15 @@ function pageTicketDetail(){
     });
   }
 
+  // Add to cart from pass page
+  const addToCartBtn = $("#addToCartBtn");
+  if(addToCartBtn && !addToCartBtn.dataset.bound){
+    addToCartBtn.dataset.bound = '1';
+    addToCartBtn.addEventListener('click', ()=>{
+      showPassModal(ev.name, pass.name, pass.price, { eventId: ev.id, passId: pass.id });
+    });
+  }
+
   $("#backTickets").href = "tickets.html";
 }
 
@@ -736,8 +753,8 @@ function pageProduct(){
       else cart.push({ key, productId:p.id, size, qty });
 
       window.store.saveCart(cart);
-      alert("Añadido al carrito (simulado).");
-      window.location.href = "cart.html";
+      showToastMini("Producto añadido al carrito");
+      setTimeout(()=> window.location.href = "cart.html", 700);
     });
   }
 }
@@ -755,33 +772,66 @@ function pageCart(){
   let total = 0;
 
   cart.forEach((it, idx)=>{
-    const p = DB.products.find(x=>x.id===it.productId);
-    if(!p) return;
+    // Support product items and ticket items
+    if(it.type === 'ticket'){
+      const ev = it.eventId ? DB.events.find(x=>x.id===Number(it.eventId)) : null;
+      const pass = ev && it.passId ? ev.passes.find(p=>p.id===Number(it.passId)) : null;
+      const price = (it.price != null) ? it.price : (pass ? pass.price : 0);
+      const sub = price * (it.qty||0);
+      total += sub;
 
-    const sub = p.price * (it.qty||0);
-    total += sub;
+      const eventTitle = ev ? ev.name : (it.eventName || 'Evento');
+      const passTitle = pass ? pass.name : (it.passName || 'Entrada');
 
-    const row = document.createElement("div");
-    row.className="card";
-    row.innerHTML = `
-      <div class="row" style="justify-content:space-between">
-        <div>
-          <div class="badge">Talla: ${it.size}</div>
-          <h3 class="h-title" style="margin:8px 0 4px 0">${p.name}</h3>
-          <p class="small">${money(p.price)} • Cantidad: ${it.qty}</p>
+      const row = document.createElement('div');
+      row.className = 'card';
+      row.innerHTML = `
+        <div class="row" style="justify-content:space-between">
+          <div>
+            <div class="badge">🎟️ ${passTitle}</div>
+            <h3 class="h-title" style="margin:8px 0 4px 0">${eventTitle}</h3>
+            <p class="small">${money(price)} • Cantidad: ${it.qty}</p>
+          </div>
+          <div class="right">
+            <strong>${money(sub)}</strong>
+            <button class="btn danger" type="button">Quitar</button>
+          </div>
         </div>
-        <div class="right">
-          <strong>${money(sub)}</strong>
-          <button class="btn danger" type="button">Quitar</button>
+      `;
+      row.querySelector('button').addEventListener('click', ()=>{
+        cart.splice(idx,1);
+        window.store.saveCart(cart);
+        pageCart();
+      });
+      wrap.appendChild(row);
+    } else if(it.productId){
+      const p = DB.products.find(x=>x.id===it.productId);
+      if(!p) return;
+      const sub = p.price * (it.qty||0);
+      total += sub;
+
+      const row = document.createElement('div');
+      row.className='card';
+      row.innerHTML = `
+        <div class="row" style="justify-content:space-between">
+          <div>
+            <div class="badge">Talla: ${it.size || '-'}</div>
+            <h3 class="h-title" style="margin:8px 0 4px 0">${p.name}</h3>
+            <p class="small">${money(p.price)} • Cantidad: ${it.qty}</p>
+          </div>
+          <div class="right">
+            <strong>${money(sub)}</strong>
+            <button class="btn danger" type="button">Quitar</button>
+          </div>
         </div>
-      </div>
-    `;
-    row.querySelector("button").addEventListener("click", ()=>{
-      cart.splice(idx,1);
-      window.store.saveCart(cart);
-      pageCart();
-    });
-    wrap.appendChild(row);
+      `;
+      row.querySelector('button').addEventListener('click', ()=>{
+        cart.splice(idx,1);
+        window.store.saveCart(cart);
+        pageCart();
+      });
+      wrap.appendChild(row);
+    }
   });
 
   totalEl.textContent = money(total);
@@ -800,23 +850,70 @@ function pageCart(){
         alert("Carrito vacío.");
         return;
       }
+      // Simulate a minimal payment step
+      const proceed = confirm(`Total a pagar: ${money(total)}\n\nSimular pago con tarjeta?`);
+      if(!proceed) return;
 
+      // Process cart: create tickets for ticket items, and an order for product items
       const orders = window.store.loadOrders();
-      const id = Date.now();
+      const productsForOrder = cart.filter(i=>i.productId);
+      const ticketsForCart = cart.filter(i=>i.type==='ticket');
 
-      orders.push({
-        id,
-        userEmail: s.email,
-        date: new Date().toISOString().slice(0,10),
-        eta: new Date(Date.now()+ 7*24*3600*1000).toISOString().slice(0,10),
-        status: "En preparación",
-        items: cart
+      const createdOrderIds = [];
+      const createdTicketIds = [];
+
+      if(productsForOrder.length){
+        const oid = Date.now();
+        orders.push({
+          id: oid,
+          userEmail: s.email,
+          date: new Date().toISOString().slice(0,10),
+          eta: new Date(Date.now()+ 7*24*3600*1000).toISOString().slice(0,10),
+          status: "En preparación",
+          items: productsForOrder
+        });
+        createdOrderIds.push(oid);
+      }
+
+      // Create tickets entries for each ticket item
+      ticketsForCart.forEach(ti=>{
+        const ev = ti.eventId ? DB.events.find(e=>e.id === Number(ti.eventId)) : null;
+        const pass = (ev && ti.passId) ? ev.passes.find(p=>p.id === Number(ti.passId)) : null;
+        for(let i=0;i<(ti.qty||1);i++){
+          const id = Date.now() + Math.floor(Math.random()*1000) + i;
+          const code = `SUB-${ti.eventId || 'X'}-${ti.passId || 'X'}-${String(id).slice(-6)}`;
+          DB.tickets.push({
+            id,
+            userEmail: s.email,
+            eventId: ti.eventId ? Number(ti.eventId) : null,
+            eventName: ev ? ev.name : (ti.eventName || null),
+            passName: pass ? pass.name : (ti.passName || 'Entrada'),
+            purchaseDate: new Date().toISOString().slice(0,10),
+            status: "Activa",
+            code
+          });
+          createdTicketIds.push(id);
+        }
       });
 
+      // Persist
       window.store.saveOrders(orders);
       window.store.saveCart([]);
-      alert("Pedido realizado (simulado).");
-      window.location.href = "orders.html";
+      window.saveTickets?.();
+
+      // Save a purchase summary for the UI
+      const lastPurchase = {
+        id: Date.now(),
+        userEmail: s.email,
+        date: new Date().toISOString().slice(0,10),
+        total: total,
+        orders: createdOrderIds,
+        tickets: createdTicketIds
+      };
+      try{ localStorage.setItem('subsonic_last_purchase', JSON.stringify(lastPurchase)); }catch(e){}
+
+      alert('Pago simulado: entradas y pedidos procesados.');
+      window.location.href = `purchase-summary.html?id=${lastPurchase.id}`;
     });
   }
 }
@@ -902,6 +999,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     profile: pageProfile,
     pass: pagePass,
     purchaseSuccess: pagePurchaseSuccess,
+    purchaseSummary: pagePurchaseSummary,
     tickets: pageTickets,
     ticket: pageTicketDetail,
 
@@ -973,4 +1071,170 @@ if(document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initHeroParallax);
 } else {
   initHeroParallax();
+}
+
+/* -------------------- Cart helpers for tickets -------------------- */
+function addTicketToCart(eventId, passId, qty){
+  const cart = window.store.loadCart();
+  // Backwards compatible: if eventId is an object (opts), normalize
+  if(typeof eventId === 'object' && eventId !== null){
+    const opts = eventId;
+    const key = opts.key || `ticket_${opts.eventId || opts.eventName}_${opts.passId || opts.passName}`;
+    const existing = cart.find(i=>i.key===key && i.type==='ticket');
+    if(existing){ existing.qty = (existing.qty||0) + (opts.qty||1); }
+    else cart.push({ key, type:'ticket', eventId: opts.eventId || null, eventName: opts.eventName || null, passId: opts.passId || null, passName: opts.passName || null, price: opts.price || null, qty: opts.qty || 1 });
+    window.store.saveCart(cart);
+    return;
+  }
+
+  const key = `ticket_${eventId}_${passId}`;
+  const existing = cart.find(i=>i.key===key && i.type==='ticket');
+  if(existing){
+    existing.qty = (existing.qty || 0) + (qty || 1);
+  } else {
+    cart.push({ key, type: 'ticket', eventId: eventId || null, passId: passId || null, qty: qty || 1 });
+  }
+  window.store.saveCart(cart);
+}
+
+function addFestivalPassToCart(eventName, passName, price, qty){
+  const opts = { eventId: null, eventName: eventName, passId: null, passName: passName, price: price || 0, qty: qty || 1 };
+  addTicketToCart(opts);
+  renderNav();
+}
+
+/* -------------------- UI: Toast & Modal -------------------- */
+function showToastMini(msg, timeout = 2200){
+  let t = document.querySelector('.toast-mini');
+  if(!t){
+    t = document.createElement('div');
+    t.className = 'toast-mini';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  requestAnimationFrame(()=> t.classList.add('show'));
+  if(t._hideTimer) clearTimeout(t._hideTimer);
+  t._hideTimer = setTimeout(()=>{
+    t.classList.remove('show');
+  }, timeout);
+}
+
+function showPassModal(eventName, passName, price, meta){
+  // meta optional { eventId, passId }
+  // create overlay
+  let ov = document.querySelector('.modal-overlay');
+  if(ov) ov.remove();
+  ov = document.createElement('div');
+  ov.className = 'modal-overlay';
+
+  const card = document.createElement('div');
+  card.className = 'modal-card';
+  card.innerHTML = `
+    <h3 class="modal-title">${eventName} — ${passName}</h3>
+    <div class="modal-note">Precio unitario: ${money(price)}</div>
+    <div class="modal-row">
+      <label style="margin-right:8px">Cantidad:</label>
+      <input class="modal-qty field" type="number" min="1" value="1" />
+      <div style="flex:1"></div>
+      <button class="btn secondary" id="modalCancel">Cancelar</button>
+      <button class="btn" id="modalConfirm">Añadir</button>
+    </div>
+  `;
+
+  ov.appendChild(card);
+  document.body.appendChild(ov);
+
+  const qtyInput = card.querySelector('.modal-qty');
+  const cancel = card.querySelector('#modalCancel');
+  const confirm = card.querySelector('#modalConfirm');
+
+  function cleanup(){
+    ov.remove();
+  }
+
+  cancel.addEventListener('click', cleanup);
+  ov.addEventListener('click', (e)=>{ if(e.target === ov) cleanup(); });
+
+  confirm.addEventListener('click', ()=>{
+    const qty = Math.max(1, Number(qtyInput.value) || 1);
+    if(meta && (meta.eventId || meta.passId)){
+      addTicketToCart({ eventId: meta.eventId || null, passId: meta.passId || null, qty, price: price, eventName, passName });
+    } else {
+      addFestivalPassToCart(eventName, passName, price, qty);
+    }
+    showToastMini(`${qty} × ${passName} añadido${qty>1? 's':''} al carrito`);
+    cleanup();
+  });
+}
+
+function pagePurchaseSummary(){
+  renderNav();
+  requireRole(["client"]);
+
+  const url = new URL(window.location.href);
+  const id = url.searchParams.get('id');
+  const raw = localStorage.getItem('subsonic_last_purchase');
+  if(!raw){
+    document.getElementById('summaryContent').innerHTML = `<div class="card">Resumen no encontrado.</div>`;
+    return;
+  }
+
+  let summary = null;
+  try{ summary = JSON.parse(raw); }catch(e){ summary = null; }
+  if(!summary || String(summary.id) !== String(id)){
+    document.getElementById('summaryContent').innerHTML = `<div class="card">Resumen no coincide o ha caducado.</div>`;
+    return;
+  }
+
+  const s = getSession();
+  if(!s || s.email !== summary.userEmail){
+    document.getElementById('summaryContent').innerHTML = `<div class="card">No autorizado para ver este resumen.</div>`;
+    return;
+  }
+
+  // Render tickets
+  const ticketsHtml = [];
+  summary.tickets.forEach(tid=>{
+    const t = DB.tickets.find(x=>x.id===tid);
+    if(!t) return;
+    const ev = t.eventId ? DB.events.find(e=>e.id===t.eventId) : null;
+    const title = ev ? ev.name : (t.eventName || 'Evento');
+    ticketsHtml.push(`
+      <div class="card">
+        <div class="badge">🎫 ${title}</div>
+        <h4 class="h-title">${t.passName}</h4>
+        <p class="small">Código: <strong>${t.code}</strong> — Fecha compra: ${formatDate(t.purchaseDate)}</p>
+      </div>
+    `);
+  });
+
+  // Render orders (products)
+  const orders = window.store.loadOrders() || [];
+  const myOrders = orders.filter(o=> summary.orders.includes(o.id));
+  const ordersHtml = myOrders.map(o=>{
+    const items = (o.items||[]).map(it=>{
+      const prod = DB.products.find(p=>p.id===it.productId);
+      return `<div class="small">• ${prod ? prod.name : 'Producto'} x ${it.qty}</div>`;
+    }).join('');
+    return `
+      <div class="card">
+        <div class="badge">📦 Pedido #${o.id}</div>
+        <p class="small">Fecha: ${formatDate(o.date)} • ETA: ${formatDate(o.eta)}</p>
+        ${items}
+      </div>
+    `;
+  }).join('');
+
+  const totalHtml = `<div class="row" style="justify-content:space-between"><strong>Total pagado:</strong><strong>${money(summary.total)}</strong></div>`;
+
+  document.getElementById('summaryContent').innerHTML = `
+    <h3 class="h-title">Entradas</h3>
+    ${ticketsHtml.join('') || '<div class="card">No hay entradas en esta compra.</div>'}
+    <div class="hr"></div>
+    <h3 class="h-title">Pedidos</h3>
+    ${ordersHtml || '<div class="card">No hay pedidos de productos en esta compra.</div>'}
+    <div class="hr"></div>
+    ${totalHtml}
+  `;
+
 }

@@ -615,6 +615,10 @@ input:focus, select:focus, textarea:focus{
   animation: float 3s ease-in-out infinite;
 }
 
+/* Allow clicks to pass through the floating radio unless hovered (prevents blocking page buttons) */
+.radioTL{ pointer-events: none; }
+.radioTL:hover{ pointer-events: auto; }
+
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
@@ -798,6 +802,47 @@ input:focus, select:focus, textarea:focus{
   display:grid;
   gap: 18px;
   grid-template-columns: 1.2fr .8fr;
+
+/* Toast (mini confirmation) */
+.toast-mini{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  background: linear-gradient(90deg, var(--gold1), var(--gold2));
+  color: #120f0a;
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+  font-weight: 800;
+  z-index: 120;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all .28s ease;
+}
+.toast-mini.show{ transform: translateY(0); opacity: 1; }
+
+/* Modal for pass quantity */
+.modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index: 200;
+}
+.modal-card{
+  width: min(520px, 96%);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+.modal-row{ display:flex; gap:12px; align-items:center; margin-top:12px; }
+.modal-qty{ width: 110px; }
+.modal-title{ margin:0; }
+.modal-note{ color:var(--muted); font-size:13px; margin-top:8px; }
   align-items:start;
 }
 
@@ -1129,5 +1174,513 @@ footer{
   }
   .exp-hero-sub{
     font-size: 14px;
+  }
+}
+
+/* =========================================================
+   FESTIVALS PAGE
+   ========================================================= */
+
+.festival-hero{
+  position: relative;
+  height: 320px;
+  margin: -20px -20px 0 -20px;
+  background: 
+    linear-gradient(135deg, rgba(247,211,123,0.15), rgba(37,211,238,0.1)),
+    linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.festival-hero-overlay{
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(247,211,123,0.1), transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(37,211,238,0.1), transparent 50%);
+  z-index: 0;
+}
+
+.festival-hero-content{
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.festival-hero h1{
+  margin: 0 0 16px 0;
+  font-size: 48px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.95);
+  text-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.festival-hero p{
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.6;
+}
+
+/* Festival Tabs/Filters */
+.festival-selector{
+  text-align: center;
+}
+
+.festival-tabs{
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.festival-tab{
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.festival-tab:hover{
+  border-color: rgba(247,211,123,0.3);
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.9);
+}
+
+.festival-tab.active{
+  border-color: rgba(247,211,123,0.8);
+  background: linear-gradient(135deg, rgba(247,211,123,0.3), rgba(37,211,238,0.2));
+  color: rgba(255,255,255,1);
+  box-shadow: 0 0 20px rgba(247,211,123,0.2);
+}
+
+/* Festivals Grid */
+.festivals-grid{
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 40px 0;
+}
+
+@media (max-width: 1200px){
+  .festivals-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px){
+  .festivals-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+.festival-card{
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  animation: fade-in 0.6s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.festival-card:hover{
+  border-color: rgba(247,211,123,0.3);
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(247,211,123,0.15);
+}
+
+.festival-card-image{
+  position: relative;
+  height: 180px;
+  background: linear-gradient(135deg, rgba(247,211,123,0.1), rgba(37,211,238,0.1));
+  overflow: hidden;
+}
+
+.festival-card-image::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.3) 100%);
+  z-index: 1;
+}
+
+.festival-card-overlay{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 16px;
+  z-index: 2;
+}
+
+.festival-badge{
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(247,211,123,0.9), rgba(37,211,238,0.7));
+  color: #000;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  box-shadow: 0 4px 16px rgba(247,211,123,0.3);
+}
+
+.festival-card-content{
+  padding: 24px;
+}
+
+.festival-card-content h3{
+  margin: 0 0 12px 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.95);
+  letter-spacing: 0.3px;
+}
+
+.festival-meta{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.68);
+  line-height: 1.5;
+}
+
+.festival-description{
+  margin: 0 0 14px 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.6;
+}
+
+.festival-features{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 0;
+  border-top: 1px dashed rgba(255,255,255,0.1);
+  border-bottom: 1px dashed rgba(255,255,255,0.1);
+  margin: 14px 0;
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* Info Cards */
+.info-card{
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 28px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover{
+  border-color: rgba(247,211,123,0.25);
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-4px);
+}
+
+.info-icon{
+  font-size: 40px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.info-card h3{
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: rgba(255,255,255,0.92);
+}
+
+.info-card p{
+  margin: 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.68);
+  line-height: 1.6;
+}
+
+@media (max-width: 680px){
+  .festival-hero{
+    height: 240px;
+    margin: -16px -16px 0 -16px;
+  }
+  
+  .festival-hero h1{
+    font-size: 32px;
+    letter-spacing: 1px;
+  }
+  
+  .festival-hero p{
+    font-size: 14px;
+  }
+}
+
+/* Festival Detail Page */
+.festival-detail-hero{
+  position: relative;
+  height: 380px;
+  margin: 0 -20px -60px -20px;
+  background: linear-gradient(135deg, rgba(247,211,123,0.15), rgba(37,211,238,0.1)), linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.festival-detail-hero-overlay{
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.4) 100%);
+  z-index: 0;
+}
+
+.festival-detail-content{
+  position: relative;
+  z-index: 1;
+}
+
+.festival-detail-content h1{
+  margin: 0 0 12px 0;
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.97);
+  text-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+
+.festival-detail-date{
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: rgba(247,211,123,0.9);
+  text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.festival-detail-location{
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.5px;
+}
+
+.festival-section{
+  padding: 40px 0;
+}
+
+/* Stage Cards */
+.stage-card{
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stage-card::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(247,211,123,0.5), rgba(37,211,238,0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.stage-card:hover{
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(247,211,123,0.2);
+  transform: translateY(-2px);
+}
+
+.stage-card:hover::before{
+  opacity: 1;
+}
+
+.stage-name{
+  font-size: 16px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.95);
+  margin-bottom: 6px;
+}
+
+.stage-meta{
+  font-size: 11px;
+  color: rgba(247,211,123,0.8);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.stage-card p{
+  margin: 0 0 12px 0;
+  color: rgba(255,255,255,0.72);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.stage-genre{
+  display: block;
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(255,255,255,0.1);
+}
+
+/* Lineup */
+.artists-grid{
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px){
+  .artists-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px){
+  .artists-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+.artist-card{
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.artist-card:hover{
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(247,211,123,0.25);
+  transform: translateX(4px);
+}
+
+.artist-name{
+  font-weight: 800;
+  color: rgba(255,255,255,0.9);
+  font-size: 13px;
+}
+
+.artist-stage{
+  font-size: 10px;
+  color: rgba(247,211,123,0.8);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 4px 8px;
+  background: rgba(247,211,123,0.15);
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* Tickets */
+.ticket-card{
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.ticket-card:hover{
+  border-color: rgba(247,211,123,0.3);
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(247,211,123,0.1);
+}
+
+.ticket-featured{
+  border-color: rgba(247,211,123,0.4);
+  background: linear-gradient(135deg, rgba(247,211,123,0.08), rgba(37,211,238,0.04));
+  box-shadow: 0 0 30px rgba(247,211,123,0.1);
+}
+
+.ticket-featured:hover{
+  border-color: rgba(247,211,123,0.6);
+  box-shadow: 0 16px 50px rgba(247,211,123,0.2);
+}
+
+.ticket-type{
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8px;
+}
+
+.ticket-price{
+  font-size: 32px;
+  font-weight: 900;
+  color: rgba(247,211,123,0.95);
+  margin-bottom: 14px;
+}
+
+.ticket-card p{
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 1200px){
+  .grid-3{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 680px){
+  .grid-3{
+    grid-template-columns: 1fr;
+  }
+  
+  .festival-detail-hero{
+    height: 280px;
+    margin: 0 -16px -40px -16px;
+  }
+  
+  .festival-detail-content h1{
+    font-size: 36px;
+    letter-spacing: 1px;
   }
 }
