@@ -8,6 +8,18 @@
 </head>
 <body data-page="store">
 
+<script>
+  // Force reset products cache on store load
+  try {
+    const stored = localStorage.getItem('subsonic_db');
+    if(stored) {
+      const data = JSON.parse(stored);
+      // Keep only tickets, cart, orders - reset products to defaults
+      localStorage.removeItem('subsonic_db');
+    }
+  } catch(e) {}
+</script>
+
 <header>
   <div class="nav">
     <a class="brand" href="index.html"><img src="logo.jpg" alt="Subsonic Logo" class="brand-logo" /><span>Subsonic</span></a>

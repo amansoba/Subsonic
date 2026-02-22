@@ -121,33 +121,103 @@ window.DB = {
   products: [
     {
       id: 1,
-      name: "Subsonic Hoodie — Black Gold",
+      name: "Subsonic Cap — Black Classic",
+      price: 34,
+      category: "Nuevo",
+      gender: "Hombre",
+      sizes: ["One Size"],
+      desc: "Gorra ajustable con bordado Subsonic en negro clásico. Algodón premium con cierre de velcro. Festival essential.",
+      images: ["fotos_store/g1.jpg"]
+    },
+    {
+      id: 2,
+      name: "Subsonic Cap — Gold Edition",
+      price: 39,
+      category: "Nuevo",
+      gender: "Mujer",
+      sizes: ["One Size"],
+      desc: "Gorra premium con logo dorado bordado. Colores vibrantes festival edition. Visera estructura reforzada.",
+      images: ["fotos_store/g2.jpg"]
+    },
+    {
+      id: 3,
+      name: "Subsonic Cap — Neon Pulse",
+      price: 39,
+      category: "Nuevo",
+      gender: "Unisex",
+      sizes: ["One Size"],
+      desc: "Gorra con detalles neón fluorescentes. Diseño statement para festivales nocturnos. Reflective technology.",
+      images: ["fotos_store/g3.jpg"]
+    },
+    {
+      id: 4,
+      name: "Subsonic Cap — White Signature",
+      price: 34,
+      category: "Nuevo",
+      gender: "Unisex",
+      sizes: ["One Size"],
+      desc: "Gorra blanca clean con logo bordado sutil. Versatile para cualquier estación. Ajuste flexible.",
+      images: ["fotos_store/g4.jpg"]
+    },
+    {
+      id: 5,
+      name: "Subsonic Hoodie — Neon Nights",
       price: 69,
       category: "Nuevo",
       gender: "Unisex",
       sizes: ["XS","S","M","L","XL"],
-      desc: "Sudadera premium con bordado dorado y acabado festival edition (mock).",
-      images: ["assets/img/event1.jpg","assets/img/event2.jpg","assets/img/event3.jpg"]
+      desc: "Sudadera premium con detalles neón bordados. Tejido suave con capucha cómoda y bolsillos laterales. Festival edition.",
+      images: ["fotos_store/s1.jpg"]
     },
     {
-      id: 2,
-      name: "Subsonic T-Shirt — White Glow",
+      id: 6,
+      name: "Subsonic Tee — Electric Dawn",
       price: 29,
       category: "Nuevo",
       gender: "Hombre",
       sizes: ["S","M","L","XL"],
-      desc: "Camiseta blanca con impresión glow (mock).",
-      images: ["assets/img/event2.jpg","assets/img/event3.jpg","assets/img/event1.jpg"]
+      desc: "Camiseta de algodón 100% con impresión frontal degradada. Corte clásico con acabado sostenible.",
+      images: ["fotos_store/s2.jpg"]
     },
     {
-      id: 3,
-      name: "Subsonic Top — Neon Rose",
-      price: 25,
+      id: 7,
+      name: "Subsonic Hoodie — Mystic Vibes",
+      price: 65,
       category: "Nuevo",
       gender: "Mujer",
       sizes: ["XS","S","M","L"],
-      desc: "Top con estética neon y tejido ligero (mock).",
-      images: ["assets/img/event3.jpg","assets/img/event1.jpg","assets/img/event2.jpg"]
+      desc: "Sudadera ajustada con estampado místico full print. Capucha con cordones pulsera. Material premium stretchy.",
+      images: ["fotos_store/s3.jpg"]
+    },
+    {
+      id: 8,
+      name: "Subsonic Tee — Sonic Waves",
+      price: 25,
+      category: "Nuevo",
+      gender: "Unisex",
+      sizes: ["S","M","L","XL"],
+      desc: "Camiseta oversize con patrón técnico wavefront. Tejido orgánico transpirable para clima cálido.",
+      images: ["fotos_store/s4.jpg"]
+    },
+    {
+      id: 9,
+      name: "Subsonic Hoodie — Purple Daze",
+      price: 69,
+      category: "Nuevo",
+      gender: "Unisex",
+      sizes: ["XS","S","M","L","XL"],
+      desc: "Sudadera con capucha y estampado degradado púrpura. Bolsillos kangaroo amplios. Cordones reflectantes.",
+      images: ["fotos_store/s5.jpg"]
+    },
+    {
+      id: 10,
+      name: "Subsonic Tee — Neon Dreams",
+      price: 29,
+      category: "Nuevo",
+      gender: "Mujer",
+      sizes: ["XS","S","M","L"],
+      desc: "Camiseta ajustada mujer con diseño neon exclusivo. Corte femenino con ribete de contraste.",
+      images: ["fotos_store/s6.jpg"]
     }
   ]
 };
@@ -247,53 +317,19 @@ window.saveDB = saveDB;
 window.loadDB = loadDB;
 
 /* -------------------- Initialize -------------------- */
+// ⚠️ RESET PRODUCTS IN STORAGE (clean slate for new gorras)
+try {
+  const stored = localStorage.getItem(DB_KEY);
+  if(stored) {
+    const data = JSON.parse(stored);
+    // Replace products with current DB.products (gorras only)
+    data.products = DB.products;
+    localStorage.setItem(DB_KEY, JSON.stringify(data));
+  }
+} catch(e) {
+  // ignore
+}
+
 // Load persisted DB first (if any), then tickets
 loadDB();
 loadTickets();
-
-// --- Auto-generate demo products from fotos_store if not already generated ---
-;(function generateDemoProducts(){
-  try{
-    const already = (DB.products||[]).some(p=>p.meta && p.meta.generatedFromFotos);
-    if(already) return; // avoid duplicating on subsequent loads
-
-    // List of demo images inside the workspace folder 'fotos_store'
-    const fotos = [
-      "fotos_store/s1.jpg",
-      "fotos_store/s2.jpg",
-      "fotos_store/s3.jpg",
-      "fotos_store/s4.jpg",
-      "fotos_store/s5.jpg",
-      "fotos_store/s6.jpg",
-    ];
-
-    const nextId = (() => {
-      const all = (DB.products||[]).map(p=>p.id||0).concat((DB.events||[]).map(e=>e.id||0));
-      return all.length ? Math.max(...all)+1 : 1;
-    })();
-
-    const genders = ["Unisex","Hombre","Mujer"];
-    const sizes = ["XS","S","M","L","XL"];
-
-    fotos.forEach((img, idx)=>{
-      const id = nextId + idx;
-      DB.products.push({
-        id,
-        name: `Demo Tee ${idx+1}`,
-        price: 19 + (idx*5),
-        category: "Ropa",
-        gender: genders[idx % genders.length],
-        sizes,
-        desc: "Prenda demo generada automáticamente para la tienda. Ajusta título, descripción y precio desde el administrador.",
-        images: [img],
-        meta: { generatedFromFotos: true }
-      });
-    });
-
-    // persist the new products so they survive reloads
-    saveDB();
-  }catch(e){
-    // ignore generation errors in constrained environments
-    console.warn('Demo product generation failed', e);
-  }
-})();
