@@ -430,7 +430,7 @@ input:focus, select:focus, textarea:focus{
   left:0;
   right:0;
   bottom:0;
-  background-image: url("../principal.jpg");
+  background-image: url("../fotos_principales/principal.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
