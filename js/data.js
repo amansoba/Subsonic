@@ -9,12 +9,13 @@ window.DB = {
   events: [
     {
       id: 1,
-      name: "Subsonic Festival 2026 — Opening Night",
+      name: "Subsonic Barcelona",
       date: "2026-07-25",
-      venue: "Main Stage",
+      venue: "PARC DEL FÒRUM",
       city: "Barcelona",
+      region: "España",
       desc: "Noche inaugural con electrónica, visuales y una puesta en escena inspirada en fantasía y luz. Prototipo de detalle de evento.",
-      image: "assets/img/event1.jpg",
+      image: "fotos_lugares/Barcelona.jpg",
       artists: [1,2,3],
       passes: [
         { id: 101, name: "General", price: 50, includes: "Acceso general a escenario principal" },
@@ -24,12 +25,13 @@ window.DB = {
     },
     {
       id: 2,
-      name: "Electro Night — Sunset Ceremony",
-      date: "2026-07-26",
-      venue: "Sunset Stage",
-      city: "Barcelona",
+      name: "Subsonic Valencia",
+      date: "2026-08-15",
+      venue: "CIUTAT DE LES ARTS",
+      city: "Valencia",
+      region: "España",
       desc: "Sesión nocturna con artistas invitados y estética de ritual lumínico. Prototipo de búsqueda y navegación.",
-      image: "assets/img/event2.jpg",
+      image: "fotos_lugares/Valencia.jpg",
       artists: [2,4],
       passes: [
         { id: 201, name: "General", price: 45, includes: "Acceso general" },
@@ -38,16 +40,62 @@ window.DB = {
     },
     {
       id: 3,
-      name: "Rock Arena — Fire & Steel",
-      date: "2026-07-27",
-      venue: "Rock Arena",
-      city: "Barcelona",
+      name: "Subsonic Madrid",
+      date: "2026-09-20",
+      venue: "IFEMA MADRID",
+      city: "Madrid",
+      region: "España",
       desc: "Conciertos de rock y pop-rock con show de fuego (simulado). Vista para mostrar artistas y pases.",
-      image: "assets/img/event3.jpg",
+      image: "fotos_lugares/Madrid.jpg",
       artists: [3,5],
       passes: [
         { id: 301, name: "General", price: 40, includes: "Acceso general" },
         { id: 302, name: "Full Experience", price: 170, includes: "Acceso + pack" },
+      ]
+    },
+    {
+      id: 4,
+      name: "Subsonic Festival Asia",
+      date: "2026-10-10",
+      venue: "BANYUWANGI ARENA",
+      city: "Banyuwangi",
+      region: "Indonesia",
+      desc: "La experiencia asiática de Subsonic con artistas de todo el continente. Paisajes exóticos y misticismo antiguo.",
+      image: "fotos_lugares/Asia.jpg",
+      artists: [1,2,4],
+      passes: [
+        { id: 401, name: "General", price: 35, includes: "Acceso general" },
+        { id: 402, name: "VIP", price: 100, includes: "Acceso VIP" },
+      ]
+    },
+    {
+      id: 5,
+      name: "Subsonic Festival Brasil",
+      date: "2026-11-01",
+      venue: "ALLIANZ PARQUE",
+      city: "São Paulo",
+      region: "Brasil",
+      desc: "Celebración sudamericana con ritmo, energía y la pasión que caracteriza a Brasil. Escenarios al aire libre.",
+      image: "fotos_lugares/Brasil.jpg",
+      artists: [2,3,5],
+      passes: [
+        { id: 501, name: "General", price: 40, includes: "Acceso general" },
+        { id: 502, name: "VIP", price: 115, includes: "Acceso VIP" },
+      ]
+    },
+    {
+      id: 6,
+      name: "Subsonic Winter Festival",
+      date: "2026-12-20",
+      venue: "ICE PALACE",
+      city: "Innsbruck",
+      region: "Austria",
+      desc: "Festival invernal bajo las auroras boreales. Arquitectura de hielo, fuego en la nieve y electrónica en la montaña.",
+      image: "fotos_lugares/Invierno.jpg",
+      artists: [1,4,5],
+      passes: [
+        { id: 601, name: "General", price: 55, includes: "Acceso general + abrigo térmico" },
+        { id: 602, name: "Full Experience", price: 180, includes: "VIP + suite alpina" },
       ]
     }
   ],

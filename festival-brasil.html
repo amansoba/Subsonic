@@ -18,7 +18,7 @@
 </header>
 
 <main>
-  <div class="festival-detail-hero brazil-hero">
+  <div class="festival-detail-hero" style="background-image: url('fotos_lugares/Brasil.jpg'); background-size: cover; background-position: center;">
     <div class="festival-detail-hero-overlay"></div>
     <div class="festival-detail-content">
       <h1>SUBSONIC BRASIL</h1>
@@ -28,48 +28,197 @@
   </div>
 
   <div class="container">
+    
+    <!-- Festival Description -->
     <section class="festival-section">
-      <h2 class="h-title">Carnaval Electrónico</h2>
-      <p style="color: rgba(0,0,0,0.8); line-height: 1.8;">Una fusión de ritmo carioca y electrónica: escenarios frente al mar, food-experiences, y espectáculos callejeros. Un festival que celebra la música y la cultura brasileña.</p>
-    </section>
-
-    <div class="hr"></div>
-
-    <section class="festival-section">
-      <h2 class="h-title">Lo más destacado</h2>
-      <ul class="exp-features" style="margin-top: 14px; color: rgba(0,0,0,0.8);">
-        <li>✦ Escenario Praia</li>
-        <li>✦ Samba meets House sessions</li>
-        <li>✦ Mercado gastronómico y crafters</li>
-        <li>✦ After-parties en clubes de Rio</li>
-      </ul>
-      <div style="margin-top: 20px;"><a href="tickets.html" class="btn">Comprar Entradas</a></div>
-    </section>
-
-    <div class="hr" style="margin: 40px 0;"></div>
-    <section class="festival-section">
-      <h2 class="h-title">Pases & Tickets</h2>
-      <div class="grid grid-3" style="gap:20px; margin-top:18px; color: rgba(0,0,0,0.85);">
-        <div class="ticket-card">
-          <div class="ticket-type">1 DÍA</div>
-          <div class="ticket-price">€59</div>
-          <p style="color: rgba(0,0,0,0.75); font-size:13px;">Acceso a shows en la playa por 1 día.</p>
-          <button class="btn" style="width:100%; margin-top:12px;" type="button" onclick="addFestivalPassToCart('Subsonic Brasil','1 DÍA',59,1)">Comprar</button>
+      <h2 class="h-title">Ritmo Carioca Electrónico</h2>
+      <div class="grid grid-2" style="gap: 30px; margin-top: 24px; align-items: start;">
+        <div>
+          <p style="color: rgba(255,255,255,0.8); line-height: 1.8; font-size: 15px;">
+            Subsonic Brasil es una explosión sensorial: el ritmo brasileño se encuentra con beats electrónicos en las playas de Rio de Janeiro. Frente a la bahía de Guanabara, escenarios al aire libre mezclan samba, funk carioca y electrónica global en una experiencia de puro movimiento.
+          </p>
+          <p style="color: rgba(255,255,255,0.8); line-height: 1.8; font-size: 15px; margin-top: 16px;">
+            Artistas brasileños junto a headliners internacionales. Mercados gastronómicos con fusion food, after-parties en clubes legendarios de Rio, y la vibrante energía carioca que nunca descansa. Abril es la mejor época: clima perfecto, carnaval cerrado pero vibes vivos. Brasil puro.
+          </p>
         </div>
-        <div class="ticket-card">
-          <div class="ticket-type">3 DÍAS</div>
-          <div class="ticket-price">€139</div>
-          <p style="color: rgba(0,0,0,0.75); font-size:13px;">Pase completo con afters en clubes.</p>
-          <button class="btn" style="width:100%; margin-top:12px;" type="button" onclick="addFestivalPassToCart('Subsonic Brasil','3 DÍAS',139,1)">Comprar</button>
-        </div>
-        <div class="ticket-card">
-          <div class="ticket-type">GLOBAL JOURNEY</div>
-          <div class="ticket-price">€499</div>
-          <p style="color: rgba(0,0,0,0.75); font-size:13px;">Entrada + Hotel + Transfers en pack.</p>
-          <button class="btn" style="width:100%; margin-top:12px;" type="button" onclick="addFestivalPassToCart('Subsonic Brasil','GLOBAL JOURNEY',499,1)">Reservar</button>
+        <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px;">
+          <h3 style="margin: 0 0 16px 0; font-size: 16px; color: rgba(255,255,255,0.95);">Festival en Números</h3>
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: rgba(255,255,255,0.7);">Artistas</span>
+              <span style="color: rgba(255,193,7,0.9); font-weight: 900;">120+</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: rgba(255,255,255,0.7);">Escenarios</span>
+              <span style="color: rgba(76,175,80,0.9); font-weight: 900;">4</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: rgba(255,255,255,0.7);">Capacidad</span>
+              <span style="color: rgba(255,255,255,0.9); font-weight: 900;">50,000</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: rgba(255,255,255,0.7);">Duración</span>
+              <span style="color: rgba(255,255,255,0.9); font-weight: 900;">96 horas</span>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: rgba(255,255,255,0.7);">Vibe</span>
+              <span style="color: rgba(255,193,7,0.9); font-weight: 900;">100% Ritmo</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+
+    <div class="hr" style="margin: 40px 0;"></div>
+
+    <!-- Stages -->
+    <section class="festival-section">
+      <h2 class="h-title">Los 4 Escenarios Cariocas</h2>
+      
+      <div class="grid grid-2" style="gap: 20px; margin-top: 24px;">
+        
+        <div class="stage-card">
+          <div class="stage-name">🎉 PRAIA MAIN</div>
+          <div class="stage-meta">Escenario Principal: CELEBRACIÓN</div>
+          <p>Sobre la arena blanca frente a la bahía. Headliners globales con visuales tropicales. Pirotecnia que se refleja en el agua, efectos de luz sincronizados con el atardecer carioca.</p>
+          <span class="stage-genre">EDM • Dancehall • Funk</span>
+        </div>
+
+        <div class="stage-card">
+          <div class="stage-name">🎵 SAMBA FUSION</div>
+          <div class="stage-meta">Emoción: RAÍCES BRASILEÑAS</div>
+          <p>Donde el samba encuentra la electrónica. Artistas brasileños destacados en sets melódicos que honran la tradición carioca: percusión integrada, grooves hipnóticos, ritmo puro.</p>
+          <span class="stage-genre">Samba Eletrônico • Funk Carioca • House</span>
+        </div>
+
+        <div class="stage-card">
+          <div class="stage-name">🌴 TROPICAL DEEP</div>
+          <div class="stage-meta">Emoción: SENSUALIDAD TROPICAL</div>
+          <p>House melódico, downtempo y grooves sensuales bajo palmas coconut. Escenario garden rodeado de vegetación tropical donde la música fluye como la brisa marina.</p>
+          <span class="stage-genre">Tropical House • Deep Progressive • Chill</span>
+        </div>
+
+        <div class="stage-card">
+          <div class="stage-name">🔥 FAVELA UPRISING</div>
+          <div class="stage-meta">Emoción: ENERGÍA CRUDA</div>
+          <p>Escenario dedicado a artistas emergentes y productoras locales de Rio. Hip-hop electrónico, trap brasileño, dubstep y sonidos que rompen convenios. La voz de la favela.</p>
+          <span class="stage-genre">Trap • Dubstep • Hip-Hop Electrónico</span>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="hr" style="margin: 40px 0;"></div>
+
+    <!-- Line-up Preview -->
+    <section class="festival-section">
+      <h2 class="h-title">Artistas Confirmados</h2>
+      <p style="color: rgba(255,255,255,0.7); margin-top: 8px;">Selección de headliners locales e internacionales. Próximamente completaremos la lista con 120+ artistas.</p>
+      
+      <div style="margin-top: 24px;">
+        <div class="lineup-day">
+          <h3 style="margin: 0 0 14px 0; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            🇧🇷 JUEVES 21 ABRIL - OPENING
+          </h3>
+          <div class="artists-grid">
+            <div class="artist-card"><span class="artist-name">Vintage Culture</span><span class="artist-stage">PRAIA</span></div>
+            <div class="artist-card"><span class="artist-name">Pabllo Vittar</span><span class="artist-stage">SAMBA</span></div>
+            <div class="artist-card"><span class="artist-name">Lane 8</span><span class="artist-stage">TROPICAL</span></div>
+            <div class="artist-card"><span class="artist-name">MC Tha</span><span class="artist-stage">FAVELA</span></div>
+            <div class="artist-card"><span class="artist-name">Alok</span><span class="artist-stage">PRAIA</span></div>
+            <div class="artist-card"><span class="artist-name">Capoeira Rhythms Live</span><span class="artist-stage">SAMBA</span></div>
+          </div>
+        </div>
+
+        <div class="lineup-day" style="margin-top: 20px;">
+          <h3 style="margin: 0 0 14px 0; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            🇧🇷 VIERNES-SÁBADO 22-23 ABRIL - PEAK DAYS
+          </h3>
+          <div class="artists-grid">
+            <div class="artist-card"><span class="artist-name">Disclosure</span><span class="artist-stage">PRAIA</span></div>
+            <div class="artist-card"><span class="artist-name">Funk Carioca Legends</span><span class="artist-stage">SAMBA</span></div>
+            <div class="artist-card"><span class="artist-name">John Digweed</span><span class="artist-stage">TROPICAL</span></div>
+            <div class="artist-card"><span class="artist-name">New Brazilian Trap Wave</span><span class="artist-stage">FAVELA</span></div>
+            <div class="artist-card"><span class="artist-name">David Guetta</span><span class="artist-stage">PRAIA</span></div>
+            <div class="artist-card"><span class="artist-name">Samba Electrónico Jam</span><span class="artist-stage">SAMBA</span></div>
+          </div>
+        </div>
+
+        <div class="lineup-day" style="margin-top: 20px;">
+          <h3 style="margin: 0 0 14px 0; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+            🇧🇷 DOMINGO 24 ABRIL - CLOSING PARTY
+          </h3>
+          <div class="artists-grid">
+            <div class="artist-card"><span class="artist-name">Amelie Lens</span><span class="artist-stage">PRAIA</span></div>
+            <div class="artist-card"><span class="artist-name">B12 Live</span><span class="artist-stage">SAMBA</span></div>
+            <div class="artist-card"><span class="artist-name">Nightmares on Wax</span><span class="artist-stage">TROPICAL</span></div>
+            <div class="artist-card"><span class="artist-name">Rio Bash Collective</span><span class="artist-stage">FAVELA</span></div>
+            <div class="artist-card"><span class="artist-name">Carl Cox Live</span><span class="artist-stage">PRAIA</span></div>
+            <div class="artist-card"><span class="artist-name">Final Sunrise Samba</span><span class="artist-stage">PRAIA</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 28px; padding: 20px; background: rgba(255,193,7,0.08); border-radius: 14px; border: 1px solid rgba(255,193,7,0.2);">
+        <p style="margin: 0; color: rgba(255,255,255,0.8); font-size: 14px;">
+          100+ artistas más por anunciar. Brasil es celebración: ¡que comience el ritmo!
+        </p>
+      </div>
+    </section>
+
+    <div class="hr" style="margin: 40px 0;"></div>
+
+    <!-- Tickets -->
+    <section class="festival-section">
+      <h2 class="h-title">Pases & Tickets</h2>
+      
+      <div class="grid grid-3" style="gap: 20px; margin-top: 24px;">
+        
+        <div class="ticket-card">
+          <div class="ticket-type">1 DÍA</div>
+          <div class="ticket-price">€59</div>
+          <p style="color: rgba(255,255,255,0.7); font-size: 13px; line-height: 1.6; margin: 12px 0;">
+            Acceso 1 día a la playa + todos los escenarios.
+          </p>
+          <ul style="list-style: none; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); margin: 12px 0; font-size: 12px; color: rgba(255,255,255,0.7);">
+            <li style="padding: 6px 0;">✓ Entrada 1 día</li>
+            <li style="padding: 6px 0;">✓ Acceso Playa + 4 escenarios</li>
+            <li style="padding: 6px 0;">✓ Water refill station</li>
+          </ul>
+          <button class="btn" style="width:100%; margin-top:12px;" type="button" onclick="addFestivalPassToCart('Subsonic Brasil','1 DÍA',59,1)">Comprar</button>
+        </div>
+
+        <div class="ticket-card">
+          <div class="ticket-type">4 DÍAS</div>
+          <div class="ticket-price">€169</div>
+          <p style="color: rgba(255,255,255,0.7); font-size: 13px; line-height: 1.6; margin: 12px 0;">
+            Full pass + acceso a after-parties en clubes legendarios + food market.
+          </p>
+          <ul style="list-style: none; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); margin: 12px 0; font-size: 12px; color: rgba(255,255,255,0.7);">
+            <li style="padding: 6px 0;">✓ Entrada 4 días</li>
+            <li style="padding: 6px 0;">✓ After-parties VIP</li>
+            <li style="padding: 6px 0;">✓ Food & Drink Credits</li>
+          </ul>
+          <button class="btn" style="width:100%; margin-top:12px;" type="button" onclick="addFestivalPassToCart('Subsonic Brasil','4 DÍAS',169,1)">Comprar</button>
+        </div>
+
+        <div class="ticket-card">
+          <div class="ticket-type">GLOBAL JOURNEY</div>
+          <div class="ticket-price">€499</div>
+          <p style="color: rgba(255,255,255,0.7); font-size: 13px; line-height: 1.6; margin: 12px 0;">
+            Entrada + Hotel Ipanema + Transfers + Tour guiado de Rio incluido.
+          </p>
+          <ul style="list-style: none; padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); margin: 12px 0; font-size: 12px; color: rgba(255,255,255,0.7);">
+            <li style="padding: 6px 0;">✓ Entrada 4 días VIP</li>
+            <li style="padding: 6px 0;">✓ Hotel Ipanema + Meals</li>
+            <li style="padding: 6px 0;">✓ Tour + Transfers Incluidos</li>
+          </ul>
+          <button class="btn" style="width:100%; margin-top:12px;" type="button" onclick="addFestivalPassToCart('Subsonic Brasil','GLOBAL JOURNEY',499,1)">Reservar</button>
+        </div>
+
+      </div>
+    </section>
+
   </div>
 </main>
 
