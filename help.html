@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Subsonic — Help</title>
+  <title>Subsonic — FAQ</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body data-page="help">
@@ -15,47 +15,524 @@
   </div>
 </header>
 
-<main class="container grid grid-2">
-  <section class="card">
-    <h1 class="h-title" style="margin-top:0">FAQ</h1>
-
-    <div class="card soft">
-      <div class="badge">Entradas</div>
-      <p class="small"><strong>¿Cómo cancelo una entrada?</strong><br>Desde “Mis Entradas” → detalle → “Solicitar cancelación” (simulado).</p>
+<!-- FAQ Hero Section -->
+<section class="faq-hero">
+  <div class="faq-hero-content">
+    <h1 class="faq-title">FAQ</h1>
+    <p class="faq-subtitle">Preguntas frecuentes</p>
+    
+    <div class="faq-search">
+      <input 
+        type="text" 
+        id="searchInput" 
+        class="faq-search-input" 
+        placeholder="Busca tu pregunta aquí..."
+        aria-label="Buscar en la FAQ"
+      >
+      <svg class="faq-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
     </div>
+  </div>
+</section>
 
-    <div class="card soft" style="margin-top:10px">
-      <div class="badge">Store</div>
-      <p class="small"><strong>¿Cómo hago un pedido?</strong><br>Añade productos al carrito → “Pagar (simulado)” → verás el pedido en “Pedidos”.</p>
+<!-- Categories Navigation -->
+<div class="faq-categories">
+  <div class="container">
+    <div class="faq-category-list">
+      <button class="faq-category-btn active" data-category="todos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        Todos
+      </button>
+      <button class="faq-category-btn" data-category="general">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        General
+      </button>
+      <button class="faq-category-btn" data-category="entradas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 4h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"></path>
+          <line x1="6" y1="10" x2="18" y2="10"></line>
+        </svg>
+        Entradas
+      </button>
+      <button class="faq-category-btn" data-category="tienda">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        Tienda
+      </button>
+      <button class="faq-category-btn" data-category="espacios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        Espacios
+      </button>
+      <button class="faq-category-btn" data-category="cuenta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        Cuenta
+      </button>
     </div>
+  </div>
+</div>
 
-    <div class="card soft" style="margin-top:10px">
-      <div class="badge">Proveedor</div>
-      <p class="small"><strong>¿Cómo solicito un espacio?</strong><br>Espacios → ficha → “Solicitar alquiler”.</p>
-    </div>
-  </section>
+<!-- FAQ Content -->
+<main class="container faq-container">
+  <div class="faq-content">
+    <!-- General Accordion -->
+    <div class="faq-section" data-category="general">
+      <h2 class="faq-section-title">General</h2>
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Qué es Subsonic?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Subsonic es una plataforma integral para descubrir eventos musicales, comprar entradas, explorar artistas, gestionar espacios y disfrutar de la experiencia musical en su totalidad. Conectamos fans, artistas y proveedores en un único lugar.</p>
+          </div>
+        </div>
 
-  <aside class="card">
-    <h2 class="h-title" style="margin-top:0">Contacto</h2>
-    <p class="small">Formulario simulado (sin backend).</p>
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Es seguro usar Subsonic?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Sí, Subsonic utiliza las mejores prácticas de seguridad para proteger tus datos personales y financieros. Todos los datos se encriptan y procesamos las transacciones de manera segura. Nunca compartimos tu información sin consentimiento.</p>
+          </div>
+        </div>
 
-    <form id="helpForm">
-      <div class="field">
-        <label>Asunto</label>
-        <input required placeholder="Problema con una entrada, tienda, etc.">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo puedo reportar un problema?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Si encuentras algún problema, puedes reportarlo a través del formulario de contacto en la parte inferior de esta página, o envíanos un correo a support@subsonic.com. Nuestro equipo responderá en las próximas 24-48 horas.</p>
+          </div>
+        </div>
       </div>
-      <div class="field">
-        <label>Mensaje</label>
-        <textarea required rows="4" placeholder="Describe tu consulta..."></textarea>
+    </div>
+
+    <!-- Entradas Accordion -->
+    <div class="faq-section" data-category="entradas">
+      <h2 class="faq-section-title">Entradas</h2>
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo compro una entrada?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>1. Navega a la sección de Eventos<br>2. Selecciona el evento que te interesa<br>3. Elige la cantidad de entradas y tipo<br>4. Haz clic en "Comprar entradas"<br>5. Completa el pago<br>6. Recibirás tu confirmación y código QR en tu email</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Puedo cambiar el nombre en la entrada después de comprar?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Sí, puedes cambiar el nombre de la entrada hasta 7 días antes del evento. Accede a "Mis Entradas" → selecciona la entrada → "Editar datos" → realiza los cambios necesarios. Si necesitas cambios después de ese plazo, contacta con nuestro equipo de soporte.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo cancelo una entrada?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Para cancelar una entrada:<br>1. Ve a "Mis Entradas"<br>2. Selecciona la entrada que deseas cancelar<br>3. Haz clic en "Solicitar cancelación"<br>4. Serás reembolsado según la política del evento<br>Los reembolsos pueden tardar 5-10 días hábiles en procesarse.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Qué pasa si pierdo mi entrada?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>No hay problema. Tu entrada está vinculada a tu cuenta de Subsonic. Simplemente inicia sesión el día del evento y accede a tu QR en la sección "Mis Entradas". Si tienes problemas para acceder, contacta con el equipo de soporte en el lugar del evento.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Puedo transferir mi entrada a otra persona?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Muchos eventos permiten la transferencia de entradas. Para transferir:<br>1. Ve a "Mis Entradas"<br>2. Selecciona "Transferir entrada"<br>3. Ingresa el email del nuevo propietario<br>4. Confirma la transferencia<br>Ten en cuenta que algunos eventos no permiten transferencias.</p>
+          </div>
+        </div>
       </div>
-      <div class="right">
-        <button class="btn" type="submit">Enviar</button>
+    </div>
+
+    <!-- Tienda Accordion -->
+    <div class="faq-section" data-category="tienda">
+      <h2 class="faq-section-title">Tienda</h2>
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo realizo un pedido?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>1. Navega a la sección "Tienda"<br>2. Busca los productos que deseas<br>3. Añade los artículos a tu carrito<br>4. Revisa tu carrito<br>5. Procede al pago<br>6. Recibirás un número de pedido y seguimiento en tu email</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cuál es el tiempo de envío?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Los tiempos de envío dependen de tu ubicación:<br>• España: 2-5 días hábiles<br>• Europa: 5-10 días hábiles<br>• Internacional: 10-20 días hábiles<br>Todos los pedidos incluyen seguimiento. Puedes verificar el estado en "Mis Pedidos".</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Puedo cambiar o cancelar mi pedido?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Puedes cambiar el pedido hasta 2 horas después de realizarlo. Después de ese tiempo, puedes solicitar la devolución siguiendo el proceso de devoluciones. Para cancelaciones, contacta al equipo de soporte lo antes posible.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cuál es la política de devoluciones?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Puedes devolver productos dentro de 30 días desde la recepción. El producto debe estar sin usar y en su empaque original. Una vez recibida tu devolución, procesaremos el reembolso en 5-10 días hábiles. Los gastos de envío de devolución corren por tu cuenta, excepto en caso de error nuestro.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Qué métodos de pago aceptan?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Aceptamos los siguientes métodos de pago:<br>• Tarjetas de débito y crédito (Visa, Mastercard, American Express)<br>• PayPal<br>• Apple Pay<br>• Google Pay<br>• Transferencia bancaria<br>Todos los pagos se procesan de forma segura.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Espacios Accordion -->
+    <div class="faq-section" data-category="espacios">
+      <h2 class="faq-section-title">Espacios</h2>
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo solicito alquilar un espacio?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>1. Ve a la sección "Espacios"<br>2. Explora los espacios disponibles<br>3. Haz clic en el espacio que te interesa<br>4. Revisa los detalles y disponibilidad<br>5. Haz clic en "Solicitar alquiler"<br>6. Completa el formulario con tus datos y fechas<br>7. Envía la solicitud para revisión</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo me registro como proveedor de espacios?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>1. Ve a "Perfil" → "Conviértete en Proveedor"<br>2. Completa tu información comercial<br>3. Sube documentación requerida (DNI, licencia comercial)<br>4. Crea tu perfil de proveedor<br>5. Espera a la aprobación de nuestro equipo (2-5 días hábiles)<br>6. Una vez aprobado, podrás añadir tus espacios</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo añado mis espacios a la plataforma?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Una vez seas proveedor aprobado:<br>1. Ve a "Espacios" → "Gestionar mis espacios"<br>2. Haz clic en "Añadir nuevo espacio"<br>3. Rellena la información del espacio<br>4. Sube fotos de alta calidad<br>5. Define disponibilidad y precios<br>6. Publica tu espacio</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cuáles son las comisiones de Subsonic?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Subsonic cobra una comisión del 8% sobre cada transacción de alquiler de espacios. Esto incluye todas nuestras herramientas, soporte y verificación de usuarios. Las transacciones se procesan automáticamente y recibirás tu pago en 5-7 días hábiles después de completada la reserva.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo gestiono mis reservas?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Como proveedor, puedes gestionar todas tus reservas desde "Espacios" → "Mis reservas".<br>Allí podrás:<br>• Ver todas las solicitudes de alquiler<br>• Aprobar o rechazar solicitudes<br>• Ver el calendario de ocupación<br>• Comunicarte con los clientes<br>• Acceder a tus ganancias y reportes</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cuenta Accordion -->
+    <div class="faq-section" data-category="cuenta">
+      <h2 class="faq-section-title">Cuenta y Perfil</h2>
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo cambio mi contraseña?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>1. Inicia sesión en tu cuenta<br>2. Ve a "Perfil" → "Seguridad"<br>3. Haz clic en "Cambiar contraseña"<br>4. Ingresa tu contraseña actual<br>5. Introduce tu nueva contraseña (mínimo 8 caracteres)<br>6. Confirma la nueva contraseña<br>7. Haz clic en "Guardar cambios"</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Olvidé mi contraseña, ¿qué hago?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>1. Ve a la página de inicio sesión<br>2. Haz clic en "¿Olvidaste tu contraseña?"<br>3. Ingresa tu email<br>4. Recibirás un enlace de recuperación en tu email<br>5. Haz clic en el enlace<br>6. Crea una nueva contraseña<br>7. Confirma y ya podrás acceder a tu cuenta</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Puedo cambiar mi email de cuenta?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Sí, puedes cambiar tu email en "Perfil" → "Información personal":<br>1. Haz clic en "Editar email"<br>2. Ingresa tu nuevo email<br>3. Te enviaremos un enlace de confirmación<br>4. Haz clic en el enlace del email<br>5. Tu cuenta se actualizará con el nuevo email</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo elimino mi cuenta?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Si deseas eliminar tu cuenta:<br>1. Ve a "Perfil" → "Seguridad"<br>2. Desplázate hasta "Zona de peligro"<br>3. Haz clic en "Eliminar mi cuenta"<br>4. Confirma tu decisión<br>Tu cuenta se eliminará en 30 días. Durante este período, puedes recuperarla contactando con soporte. Después de 30 días, todos tus datos se borrarán permanentemente.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            <span>¿Cómo actualizo mi información personal?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>Para actualizar tu información:<br>1. Ve a "Perfil"<br>2. Haz clic en "Editar perfil"<br>3. Modifica los datos que desees (nombre, teléfono, dirección, foto, etc.)<br>4. Sube una nueva foto de perfil si lo deseas<br>5. Haz clic en "Guardar cambios"<br>Tus cambios se aplicarán inmediatamente.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <section class="faq-contact-section">
+    <h2 class="faq-contact-title">¿No encontraste lo que buscas?</h2>
+    <p class="faq-contact-subtitle">Nuestro equipo de soporte está aquí para ayudarte</p>
+    
+    <form id="helpForm" class="faq-contact-form">
+      <div class="faq-form-group">
+        <label for="subject" class="faq-form-label">Asunto</label>
+        <input 
+          id="subject"
+          type="text"
+          name="subject"
+          class="faq-form-input" 
+          required 
+          placeholder="Describe brevemente tu pregunta..."
+        >
+      </div>
+      <div class="faq-form-group">
+        <label for="message" class="faq-form-label">Mensaje</label>
+        <textarea 
+          id="message"
+          name="message"
+          class="faq-form-textarea" 
+          required 
+          rows="5" 
+          placeholder="Cuéntanos más detalles sobre tu consulta..."
+        ></textarea>
+      </div>
+      <div class="faq-form-actions">
+        <button type="submit" class="faq-form-submit">Enviar</button>
       </div>
     </form>
-  </aside>
+  </section>
 </main>
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
+
+<script>
+  // FAQ Accordion Functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    const categoryBtns = document.querySelectorAll('.faq-category-btn');
+    const searchInput = document.getElementById('searchInput');
+    const faqSections = document.querySelectorAll('.faq-section');
+
+    // Accordion functionality
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question.addEventListener('click', () => {
+        const isExpanded = question.getAttribute('aria-expanded') === 'true';
+        
+        // Close all other items
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+            otherItem.querySelector('.faq-answer').style.maxHeight = null;
+          }
+        });
+        
+        // Toggle current item
+        question.setAttribute('aria-expanded', !isExpanded);
+        const answer = item.querySelector('.faq-answer');
+        if (!isExpanded) {
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        } else {
+          answer.style.maxHeight = null;
+        }
+      });
+    });
+
+    // Category filter functionality
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const selectedCategory = btn.dataset.category;
+        
+        faqSections.forEach(section => {
+          if (selectedCategory === 'todos' || section.dataset.category === selectedCategory) {
+            section.style.display = 'block';
+          } else {
+            section.style.display = 'none';
+          }
+        });
+
+        // Close all accordions when changing category
+        faqItems.forEach(item => {
+          item.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+          item.querySelector('.faq-answer').style.maxHeight = null;
+        });
+      });
+    });
+
+    // Search functionality
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      
+      if (searchTerm === '') {
+        faqSections.forEach(section => section.style.display = 'block');
+        faqItems.forEach(item => item.style.display = 'block');
+        return;
+      }
+
+      faqSections.forEach(section => {
+        let hasVisibleItems = false;
+        section.querySelectorAll('.faq-item').forEach(item => {
+          const question = item.querySelector('.faq-question span').textContent.toLowerCase();
+          const answer = item.querySelector('.faq-answer p').textContent.toLowerCase();
+          
+          if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+            item.style.display = 'block';
+            hasVisibleItems = true;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        
+        section.style.display = hasVisibleItems ? 'block' : 'none';
+      });
+    });
+
+    // Form submission
+    const helpForm = document.getElementById('helpForm');
+    if (helpForm) {
+      helpForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('¡Gracias por tu mensaje! Nos pondremos en contacto pronto.');
+        helpForm.reset();
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
