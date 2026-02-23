@@ -2284,3 +2284,289 @@ footer{
     width: 100%;
   }
 }
+
+/* =========================================================
+   Login Page — Tomorrowland Split Screen Design
+   ========================================================= */
+
+body[data-page="login"] {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  color: #1a1a1a;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.loginPage {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.loginLeft {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.loginCard {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.loginLogo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.loginLogo img {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  object-fit: cover;
+  object-position: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.loginTitle {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0;
+  text-align: center;
+  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  letter-spacing: 0.5px;
+}
+
+.loginSubtitle {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.loginForm .field,
+#loginForm .field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.loginForm label,
+#loginForm label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.loginForm input,
+.loginForm select,
+#loginForm input,
+#loginForm select {
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #fff;
+  color: #1a1a1a;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.loginForm input::placeholder,
+#loginForm input::placeholder {
+  color: #999;
+}
+
+.loginForm input:focus,
+.loginForm select:focus,
+#loginForm input:focus,
+#loginForm select:focus {
+  outline: none;
+  border-color: #f7d37b;
+  box-shadow: 0 0 0 3px rgba(247, 211, 123, 0.15);
+  background: #fff;
+}
+
+.loginBtn {
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--gold1), var(--gold2));
+  color: #120f0a;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.loginBtn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(247, 211, 123, 0.25);
+}
+
+.loginBtn:active {
+  transform: translateY(0);
+}
+
+.loginBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loginLinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.loginLinks a {
+  font-size: 13px;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.loginLinks a:hover {
+  color: #f7d37b;
+  border-bottom-color: #f7d37b;
+}
+
+.loginLinkSep {
+  color: #ccc;
+  font-size: 12px;
+}
+
+.loginRight {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  overflow: hidden;
+  position: relative;
+}
+
+.loginImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.toast {
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  font-size: 13px;
+  display: none;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Responsive: ocultar imagen en pantallas pequeñas */
+@media (max-width: 900px) {
+  .loginPage {
+    flex-direction: column;
+  }
+
+  .loginLeft {
+    min-height: 100vh;
+    flex: unset;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .loginRight {
+    display: none;
+  }
+
+  .loginCard {
+    max-width: 480px;
+  }
+
+  .loginTitle {
+    font-size: 28px;
+  }
+
+  .loginLogo img {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 600px) {
+  .loginLeft {
+    padding: 30px 16px;
+  }
+
+  .loginCard {
+    gap: 20px;
+    max-width: 100%;
+  }
+
+  .loginTitle {
+    font-size: 24px;
+  }
+
+  .loginSubtitle {
+    font-size: 13px;
+  }
+
+  .loginForm input,
+  .loginForm select,
+  #loginForm input,
+  #loginForm select {
+    padding: 11px 14px;
+    font-size: 13px;
+  }
+
+  .loginBtn {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+
+  .loginLinks {
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .loginLinks a {
+    font-size: 12px;
+  }
+
+  .loginLogo img {
+    width: 60px;
+    height: 60px;
+  }
+}
