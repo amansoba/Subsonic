@@ -48,22 +48,22 @@ function renderNav(){
 
   const s = getSession();
   const links = [
-    { href: "events.html", label: "Eventos" },
+    { href: "events.html", label: "Events" },
     { href: "store.html", label: "Store" },
     { href: "help.html", label: "Help" },
   ];
 
   // Badge carrito (si existe localStorage store)
   const cartCount = (window.store?.loadCart?.() || []).reduce((a,i)=>a+(i.qty||0),0);
-  links.push({ href: "cart.html", label: `Carrito (${cartCount})` });
+  links.push({ href: "cart.html", label: `Cart (${cartCount})` });
 
   if(!s){
     links.push({ href:"login.html", label:"My Account" });
   } else if(s.role === "client"){
     // OJO: tu archivo real es client_dashboard.html (con guion bajo)
-    links.push({ href:"client_dashboard.html", label:"Mi Cuenta" });
-    links.push({ href:"tickets.html", label:"Mis Entradas" });
-    links.push({ href:"orders.html", label:"Pedidos" });
+    links.push({ href:"client_dashboard.html", label:"My Account" });
+    links.push({ href:"tickets.html", label:"My Tickets" });
+    links.push({ href:"orders.html", label:"Orders" });
     links.push({ href:"#", label:`👤 ${s.name || "Cliente"}`, action:"noop" });
     links.push({ href:"#", label:"Cerrar sesión", action:"logout" });
   } else if(s.role === "provider"){
