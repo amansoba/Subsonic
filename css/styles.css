@@ -162,7 +162,7 @@ header{
 }
 
 .badge{
-  display:inline-flex;
+  display: inline-block;
   align-items:center;
   gap:8px;
   padding:6px 10px;
@@ -173,6 +173,223 @@ header{
   background: rgba(0,0,0,.18);
 }
 
+
+/* Player modal styles */
+.player-overlay{ position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.88); z-index:1200; padding:20px; }
+.player-card{ width: min(520px, 92%); aspect-ratio: 1/1; background: #080808; border-radius:14px; padding:18px; box-shadow: 0 14px 50px rgba(0,0,0,0.75); border:1px solid rgba(255,255,255,0.04); color: #fff; display:flex; align-items:center; justify-content:center; position:relative; }
+.player-card .modal-close{ position:absolute; right:12px; top:10px; background:transparent; border:0; color:var(--muted); font-size:16px; }
+.player-inner{ display:flex; flex-direction:column; gap:14px; align-items:center; justify-content:center; width:100%; height:100%; text-align:center; padding:6px; box-sizing:border-box; }
+.player-cover{ flex:0 0 auto; }
+.player-cover img{ width:48%; max-width:260px; aspect-ratio:1/1; height:auto; border-radius:12px; box-shadow: 0 8px 28px rgba(0,0,0,0.7); }
+.player-info{ width:100%; }
+.player-info h3{ font-size:16px; color:#fff; margin:6px 0 4px 0; }
+.player-info .small{ color:var(--muted); }
+.player-controls .btn{ background: rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.03); padding:8px 12px; border-radius:8px; color: #fff; }
+.player-controls .btn:hover{ transform: translateY(-2px); }
+.player-progress-bar{ width:80%; height:8px; border-radius:8px; overflow:hidden; margin:0 auto; }
+.player-progress-fill{ transition: width .25s linear; height:100%; }
+
+@media (max-width:900px){
+  .player-card{ width: min(460px, 92%); }
+  .player-cover img{ width:52%; }
+}
+
+@media (max-width:680px){
+  .player-card{ width: min(420px, 96%); }
+  .player-inner{ gap:12px; }
+  .player-cover img{ width:60%; max-width:200px; }
+  .player-info{ text-align:center; }
+  .player-controls{ justify-content:center; }
+}
+
+/* Artist Modal - Festival Barcelona Premium Edition */
+:root {
+    --accent-gradient: linear-gradient(135deg, #ffcc00, #ff8a00);
+    --glass-bg: rgba(18, 18, 18, 0.85);
+    --border-light: rgba(255, 255, 255, 0.08);
+    --text-muted: #a0a0a0;
+}
+
+.artist-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1300;
+    backdrop-filter: blur(12px); /* Difumina el fondo detrás del modal */
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+
+.artist-modal[aria-hidden="false"] {
+    display: flex;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.artist-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.artist-modal-content {
+    position: relative;
+    width: min(480px, 92%);
+    background: var(--glass-bg);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8), 
+                inset 0 0 0 1px var(--border-light); /* Borde interno sutil */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.artist-modal-close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.artist-modal-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(90deg);
+}
+
+.artist-modal-body {
+    width: 100%;
+    text-align: center;
+}
+
+/* Imagen del artista/álbum */
+.artist-modal-img {
+    width: 220px;
+    height: 220px;
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    margin-bottom: 24px;
+    transition: transform 0.3s ease;
+}
+
+.artist-modal-content:hover .artist-modal-img {
+    transform: scale(1.03); /* Efecto pop sutil */
+}
+
+/* Tipografía */
+.artist-modal-stage {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffcc00; /* Color distintivo del festival */
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.artist-modal-artist {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.artist-modal-track-artist {
+    color: var(--text-muted);
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+/* Barra de progreso */
+.artist-modal-progress {
+    width: 100%;
+    margin-top: 28px;
+}
+
+.artist-modal-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.artist-modal-progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--accent-gradient);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); /* Glow de la barra */
+}
+
+.artist-modal-time {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: monospace; /* Estilo reproductor */
+}
+
+/* Controles */
+.artist-modal-controls {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.artist-modal-btn {
+    background: white;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    color: #000;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s cubic-bezier(0.2, 0, 0.1, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.artist-modal-btn:hover {
+    transform: scale(1.1);
+    background: #ffcc00;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@media (max-width:680px){
+  .artist-modal-content{ width:min(420px,96%); }
+  .artist-modal-img{ width:60%; max-width:200px; }
+}
 .btn{
   border:0;
   cursor:pointer;
