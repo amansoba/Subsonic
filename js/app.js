@@ -1658,3 +1658,309 @@ function pageAdminEditProduct(){
     out.appendChild(d);
   });
 }
+
+/* =========================================================
+   ARTIST MODAL / PLAYER
+   ========================================================= */
+
+// Sample artist data structure (ready for Spotify API)
+const ARTIST_TRACKS = {
+  'Amelie Lens': {
+    imageUrl: 'fotos_artistas/amelie-lens.jpg',
+    tracks: [
+      { title: 'Untamed', artist: 'Amelie Lens', duration: '3:45' },
+      { title: 'Emergence', artist: 'Amelie Lens', duration: '4:12' },
+      { title: 'Consciousness', artist: 'Amelie Lens', duration: '3:58' }
+    ]
+  },
+  'John Digweed': {
+    imageUrl: 'fotos_artistas/john-digweed.jpg',
+    tracks: [
+      { title: 'Rhythmic Injection', artist: 'John Digweed', duration: '4:00' },
+      { title: 'Progression', artist: 'John Digweed', duration: '3:52' }
+    ]
+  },
+  'Charlotte de Witte': {
+    imageUrl: 'fotos_artistas/charlotte-de-witte.jpg',
+    tracks: [
+      { title: 'Core Motion', artist: 'Charlotte de Witte', duration: '4:15' }
+    ]
+  },
+  'David Guetta': {
+    imageUrl: 'fotos_artistas/david-guetta.jpg',
+    tracks: [
+      { title: 'Future Track', artist: 'David Guetta', duration: '3:30' }
+    ]
+  },
+  'Ólafur Arnalds': {
+    imageUrl: 'fotos_artistas/olafur-arnalds.jpg',
+    tracks: [
+      { title: 'Ethereal Moment', artist: 'Ólafur Arnalds', duration: '4:45' }
+    ]
+  },
+  'Deadmau5': {
+    imageUrl: 'fotos_artistas/deadmau5.jpg',
+    tracks: [
+      { title: 'While 1 < 2', artist: 'Deadmau5', duration: '4:10' }
+    ]
+  },
+  'Sasha': {
+    imageUrl: 'fotos_artistas/sasha.jpg',
+    tracks: [
+      { title: 'Freedom', artist: 'Sasha', duration: '3:55' }
+    ]
+  },
+  'Adam Beyer': {
+    imageUrl: 'fotos_artistas/adam-beyer.jpg',
+    tracks: [
+      { title: 'Rave', artist: 'Adam Beyer', duration: '4:20' }
+    ]
+  },
+  'Disclosure': {
+    imageUrl: 'fotos_artistas/disclosure.jpg',
+    tracks: [
+      { title: 'Latch', artist: 'Disclosure', duration: '3:28' }
+    ]
+  },
+  'Jon Hopkins': {
+    imageUrl: 'fotos_artistas/jon-hopkins.jpg',
+    tracks: [
+      { title: 'Emerald Rush', artist: 'Jon Hopkins', duration: '4:30' }
+    ]
+  },
+  'Richie Hawtin': {
+    imageUrl: 'fotos_artistas/richie-hawtin.jpg',
+    tracks: [
+      { title: 'Plastikman', artist: 'Richie Hawtin', duration: '4:50' }
+    ]
+  },
+  'Tale of Us': {
+    imageUrl: 'fotos_artistas/tale-of-us.jpg',
+    tracks: [
+      { title: 'Such a Lonely Day', artist: 'Tale of Us', duration: '4:05' }
+    ]
+  },
+  'Ben Klock': {
+    imageUrl: 'fotos_artistas/ben-klock.jpg',
+    tracks: [
+      { title: 'Techno Sound', artist: 'Ben Klock', duration: '4:25' }
+    ]
+  },
+  'Fisher': {
+    imageUrl: 'fotos_artistas/fisher.jpg',
+    tracks: [
+      { title: 'Losing It', artist: 'Fisher', duration: '3:40' }
+    ]
+  }
+};
+
+// Fallback function: if artist not in database, create generic entry
+function getArtistData(artistName) {
+  if (ARTIST_TRACKS[artistName]) {
+    return ARTIST_TRACKS[artistName];
+  }
+  
+  // Return generic track if artist not found
+  return {
+    imageUrl: `fotos_artistas/${artistName.toLowerCase().replace(/\s+/g, '-')}.jpg`,
+    tracks: [
+      { title: 'Track 1', artist: artistName, duration: '3:45' },
+      { title: 'Track 2', artist: artistName, duration: '4:00' },
+      { title: 'Track 3', artist: artistName, duration: '3:50' }
+    ]
+  };
+}
+
+// Initialize artist modal functionality
+let artistModalState = {
+  isOpen: false,
+  currentArtist: null,
+  currentTrackIndex: 0,
+  isPlaying: false,
+  progress: 0
+};
+
+function initArtistModal() {
+  const modal = document.getElementById('artistModal');
+  if (!modal) return;
+
+  // Close button
+  const closeBtn = document.querySelector('.artist-modal-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeArtistModal);
+  }
+
+  // Close on overlay click
+  const overlay = document.querySelector('.artist-modal-overlay');
+  if (overlay) {
+    overlay.addEventListener('click', closeArtistModal);
+  }
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && artistModalState.isOpen) {
+      closeArtistModal();
+    }
+  });
+
+  // Artist cards click handlers
+  const artistCards = document.querySelectorAll('.artist-card');
+  artistCards.forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => {
+      const artistName = card.querySelector('.artist-name')?.textContent || 'Unknown Artist';
+      const stageName = card.querySelector('.artist-stage')?.textContent || 'STAGE';
+      openArtistModal(artistName, stageName);
+    });
+  });
+
+  // Player controls
+  const btnPlay = document.getElementById('artistModalBtnPlay');
+  const btnPause = document.getElementById('artistModalBtnPause');
+  const btnPrev = document.getElementById('artistModalBtnPrev');
+  const btnNext = document.getElementById('artistModalBtnNext');
+
+  if (btnPlay) {
+    btnPlay.addEventListener('click', togglePlayPause);
+  }
+  if (btnPause) {
+    btnPause.addEventListener('click', togglePlayPause);
+  }
+  if (btnPrev) {
+    btnPrev.addEventListener('click', playPreviousTrack);
+  }
+  if (btnNext) {
+    btnNext.addEventListener('click', playNextTrack);
+  }
+
+  // Progress bar click
+  const progressBar = document.querySelector('.artist-modal-progress-bar');
+  if (progressBar) {
+    progressBar.addEventListener('click', (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const percent = (e.clientX - rect.left) / rect.width;
+      updateProgress(percent);
+    });
+  }
+}
+
+function openArtistModal(artistName, stageName) {
+  const modal = document.getElementById('artistModal');
+  if (!modal) return;
+
+  artistModalState.currentArtist = artistName;
+  artistModalState.isOpen = true;
+  artistModalState.isPlaying = false;
+  artistModalState.currentTrackIndex = 0;
+  artistModalState.progress = 0;
+
+  // Update modal with artist data
+  const artistData = getArtistData(artistName);
+  
+  // Set artist info
+  document.getElementById('artistModalTitle').textContent = artistName;
+  document.getElementById('artistModalStage').textContent = stageName;
+
+  // Set image (with fallback to placeholder)
+  const imgElement = document.getElementById('artistModalImg');
+  if (artistData && artistData.imageUrl) {
+    imgElement.src = artistData.imageUrl;
+    // If image fails to load, keep placeholder
+    imgElement.onerror = () => {
+      imgElement.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"%3E%3Crect fill="%230b0b12" width="256" height="256"/%3E%3Ccircle cx="128" cy="100" r="35" fill="%23666"/%3E%3Cellipse cx="128" cy="200" rx="70" ry="50" fill="%23666"/%3E%3C/svg%3E';
+    };
+  }
+
+  // Load first track
+  updateTrackDisplay();
+
+  // Reset player state
+  document.getElementById('artistModalBtnPlay').style.display = 'flex';
+  document.getElementById('artistModalBtnPause').style.display = 'none';
+
+  // Show modal
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeArtistModal() {
+  const modal = document.getElementById('artistModal');
+  if (!modal) return;
+
+  artistModalState.isOpen = false;
+  artistModalState.isPlaying = false;
+  modal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+function updateTrackDisplay() {
+  const artistData = getArtistData(artistModalState.currentArtist);
+  if (!artistData) return;
+
+  const track = artistData.tracks[artistModalState.currentTrackIndex] || artistData.tracks[0];
+  
+  document.getElementById('artistModalTrackTitle').textContent = track.title;
+  document.getElementById('artistModalTrackArtist').textContent = track.artist;
+  document.getElementById('artistModalTimeEnd').textContent = track.duration;
+  document.getElementById('artistModalTimeStart').textContent = '0:00';
+  
+  // Reset progress
+  artistModalState.progress = 0;
+  document.getElementById('artistModalProgressFill').style.width = '0%';
+}
+
+function togglePlayPause() {
+  artistModalState.isPlaying = !artistModalState.isPlaying;
+  
+  const btnPlay = document.getElementById('artistModalBtnPlay');
+  const btnPause = document.getElementById('artistModalBtnPause');
+  
+  if (artistModalState.isPlaying) {
+    btnPlay.style.display = 'none';
+    btnPause.style.display = 'flex';
+    // Future: Start actual audio playback from Spotify API
+  } else {
+    btnPlay.style.display = 'flex';
+    btnPause.style.display = 'none';
+    // Future: Pause audio playback
+  }
+}
+
+function playNextTrack() {
+  const artistData = getArtistData(artistModalState.currentArtist);
+  if (!artistData) return;
+  
+  artistModalState.currentTrackIndex = (artistModalState.currentTrackIndex + 1) % artistData.tracks.length;
+  updateTrackDisplay();
+  
+  // Auto-play next track
+  artistModalState.isPlaying = true;
+  document.getElementById('artistModalBtnPlay').style.display = 'none';
+  document.getElementById('artistModalBtnPause').style.display = 'flex';
+}
+
+function playPreviousTrack() {
+  const artistData = getArtistData(artistModalState.currentArtist);
+  if (!artistData) return;
+  
+  artistModalState.currentTrackIndex = (artistModalState.currentTrackIndex - 1 + artistData.tracks.length) % artistData.tracks.length;
+  updateTrackDisplay();
+  
+  // Auto-play previous track
+  artistModalState.isPlaying = true;
+  document.getElementById('artistModalBtnPlay').style.display = 'none';
+  document.getElementById('artistModalBtnPause').style.display = 'flex';
+}
+
+function updateProgress(percent) {
+  artistModalState.progress = Math.max(0, Math.min(1, percent));
+  document.getElementById('artistModalProgressFill').style.width = (artistModalState.progress * 100) + '%';
+  
+  // Future: Seek audio to this position
+  console.log('Seek to:', Math.floor(artistModalState.progress * 100) + '%');
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  initArtistModal();
+});

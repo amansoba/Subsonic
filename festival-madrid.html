@@ -215,6 +215,83 @@
   </div>
 </main>
 
+<!-- ====== ARTIST MODAL / PLAYER ====== -->
+<div id="artistModal" class="artist-modal" aria-hidden="true" role="dialog" aria-labelledby="artistModalTitle">
+  <div class="artist-modal-overlay"></div>
+  <div class="artist-modal-content">
+    <button class="artist-modal-close" aria-label="Cerrar reproductor" type="button">
+      <span aria-hidden="true">×</span>
+    </button>
+
+    <div class="artist-modal-body">
+      <!-- Album Art -->
+      <div class="artist-modal-album">
+        <img 
+          id="artistModalImg" 
+          alt="Album Art" 
+          class="artist-modal-img"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Crect fill='%230b0b12' width='256' height='256'/%3E%3Ctext x='128' y='128' font-size='14' fill='%23666' text-anchor='middle' dy='.3em'%3EArtist Image%3C/text%3E%3C/svg%3E"
+        />
+      </div>
+
+      <!-- Artist Info -->
+      <div class="artist-modal-info">
+        <div class="artist-modal-stage" id="artistModalStage">MAINSCAPE</div>
+        <h2 id="artistModalTitle" class="artist-modal-artist">Amelie Lens</h2>
+        
+        <!-- Current Track (Hardcoded for now, ready for API) -->
+        <div class="artist-modal-track">
+          <p class="artist-modal-track-title" id="artistModalTrackTitle">Untamed</p>
+          <p class="artist-modal-track-artist" id="artistModalTrackArtist">Amelie Lens</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="artist-modal-progress">
+          <div class="artist-modal-progress-bar">
+            <div class="artist-modal-progress-fill" id="artistModalProgressFill"></div>
+          </div>
+          <div class="artist-modal-time">
+            <span id="artistModalTimeStart">1:23</span>
+            <span id="artistModalTimeEnd">3:45</span>
+          </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="artist-modal-controls">
+          <button class="artist-modal-btn" id="artistModalBtnPrev" aria-label="Anterior" type="button">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+              <path d="M6 6h2v12H6V6zm3.5 6l8.5 6V6l-8.5 6z"/>
+            </svg>
+          </button>
+          
+          <button class="artist-modal-btn artist-modal-btn-play" id="artistModalBtnPlay" aria-label="Reproducir" type="button">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+          
+          <button class="artist-modal-btn artist-modal-btn-pause" id="artistModalBtnPause" aria-label="Pausar" type="button" style="display:none;">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+            </svg>
+          </button>
+          
+          <button class="artist-modal-btn" id="artistModalBtnNext" aria-label="Siguiente" type="button">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="transform: scaleX(-1);">
+              <path d="M6 6h2v12H6V6zm3.5 6l8.5 6V6l-8.5 6z"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Footer Info (Ready for Spotify API) -->
+        <div class="artist-modal-footer" id="artistModalFooter">
+          <small>Próximamente: reproducción en vivo desde Spotify</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
 </body>
