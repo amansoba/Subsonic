@@ -16,14 +16,46 @@
     </a>
 
     <nav class="topbar-menu">
-      <a href="events.html">FESTIVALES Y EVENTOS</a>
-      <a href="experiences.html">EXPERIENCIAS</a>
-      <a href="store.html">TIENDA</a>
-      <a href="#">MÚSICA</a>
+      <div class="dropdown">
+        <a href="events.html">FESTIVALES Y EVENTOS</a>
+        <div class="dropdown-content">
+          <a href="festival-barcelona.html">Barcelona</a>
+          <a href="festival-valencia.html">Valencia</a>
+          <a href="festival-madrid.html">Madrid</a>
+          <a href="festival-asia.html">Asia</a>
+          <a href="festival-brasil.html">Brasil</a>
+          <a href="festival-winter.html">Winter</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="experiences.html">EXPERIENCIAS</a>
+        <div class="dropdown-content">
+          <a href="experiences.html">Todas las Experiencias</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="store.html">TIENDA</a>
+        <div class="dropdown-content">
+          <a href="store.html">Productos</a>
+          <a href="cart.html">Carrito</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="artists.html">MÚSICA</a>
+        <div class="dropdown-content">
+          <a href="artists.html">Artistas</a>
+          <a href="events.html">Eventos</a>
+        </div>
+      </div>
       <a href="help.html">AYUDA</a>
     </nav>
 
     <div class="topbar-actions">
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       <a class="account-pill" href="login.html">MI CUENTA</a>
     </div>
   </div>
@@ -34,16 +66,16 @@
 
   <div class="heroTL-overlay">
     <div class="heroTL-center">
-      <div class="heroTL-kicker">A NEW FRONTIER</div>
-      <h1 class="heroTL-title">The world of Subsonic</h1>
+      <div class="heroTL-kicker">UNA NUEVA FRONTERA</div>
+      <h1 class="heroTL-title">EL MUNDO DE SUBSONIC</h1>
       <p class="heroTL-sub">
-        Enter a magnificent story where the impossible is merely a dream on the verge of becoming reality.
+        Entra en una magnífica historia donde lo imposible es sólo un sueño a punto de convertirse en realidad.
       </p>
     </div>
 
     <section class="heroTL-events" aria-label="Festivals list">
       <article class="eventTL">
-        <div class="eventTL-date">JULY 25 – 27, 2026</div>
+        <div class="eventTL-date">JULIO 25 – 27, 2026</div>
         <div class="eventTL-name">Subsonic Barcelona</div>
         <div class="eventTL-loc">PARC DEL FÒRUM • BARCELONA, ES</div>
         <a class="eventTL-btn" href="festival-barcelona.html">INFO <span aria-hidden="true">›</span></a>
@@ -52,7 +84,7 @@
       <div class="heroTL-divider" aria-hidden="true"></div>
 
       <article class="eventTL">
-        <div class="eventTL-date">AUGUST 14 – 16, 2026</div>
+        <div class="eventTL-date">AGOSTO 14 – 16, 2026</div>
         <div class="eventTL-name">Subsonic Valencia</div>
         <div class="eventTL-loc">CIUTAT DE LES ARTS • VALENCIA, ES</div>
         <a class="eventTL-btn" href="festival-valencia.html">INFO <span aria-hidden="true">›</span></a>
@@ -61,7 +93,7 @@
       <div class="heroTL-divider" aria-hidden="true"></div>
 
       <article class="eventTL">
-        <div class="eventTL-date">SEPTEMBER 04 – 06, 2026</div>
+        <div class="eventTL-date">SEPTIEMBRE 04 – 06, 2026</div>
         <div class="eventTL-name">Subsonic Madrid</div>
         <div class="eventTL-loc">IFEMA LIVE • MADRID, ES</div>
         <a class="eventTL-btn" href="festival-madrid.html">INFO <span aria-hidden="true">›</span></a>
@@ -82,5 +114,16 @@
 
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
+<script>
+  // Toggle hamburger menu
+  const hamburger = document.querySelector('.hamburger');
+  const menu = document.querySelector('.topbar-menu');
+  if (hamburger && menu) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      menu.classList.toggle('open');
+    });
+  }
+</script>
 </body>
 </html>

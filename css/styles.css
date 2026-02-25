@@ -1680,12 +1680,14 @@ footer{
   align-items: center;
   gap: 10px;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .artist-card:hover{
   background: rgba(255,255,255,0.1);
   border-color: rgba(247,211,123,0.25);
   transform: translateX(4px);
+  box-shadow: 0 8px 24px rgba(247,211,123,0.1);
 }
 
 .artist-name{
