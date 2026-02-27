@@ -1467,7 +1467,10 @@ function pageAdminCreateEvent(){
   function renderArtists(){
     if(!artistsContainer) return;
     artistsContainer.innerHTML = '';
-    const list = DB.artists || [];
+    // If editing an event, show only artists linked to that event.
+    const list = (ev && ev.artists && ev.artists.length > 0)
+      ? DB.artists.filter(a => ev.artists.includes(a.id))
+      : (DB.artists || []);
     const wrap = document.createElement('div'); wrap.className='grid grid-2';
     list.forEach(a=>{
       const item = document.createElement('label'); item.className='card';
@@ -1553,10 +1556,17 @@ function pageAdminEditEvent(){
   DB.events.forEach(ev=>{
     const d = document.createElement('div');
     d.className='card';
+    // build artist list for this event
+    const artistNames = (ev.artists||[]).map(id=>{
+      const a = DB.artists.find(x=>x.id===id);
+      return a ? a.name : null;
+    }).filter(Boolean).join(', ');
+
     d.innerHTML = `
       <div class="badge">📅 ${formatDate(ev.date)}</div>
       <h4 class="h-title">${ev.name}</h4>
       <p class="small">${ev.desc || ''}</p>
+      ${artistNames ? `<p class="small"><strong>Artistas:</strong> ${artistNames}</p>` : ''}
       <div class="right">
         <a class="btn secondary" href="admin-create-event.html?id=${ev.id}">Editar</a>
         <button class="btn danger btn-del-evt" data-id="${ev.id}">Eliminar</button>
