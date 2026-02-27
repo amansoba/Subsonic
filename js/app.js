@@ -300,9 +300,11 @@ function pageLogin(){
     e.preventDefault();
 
     const email = ($("#email")?.value || "").trim();
+    const password = ($("#password")?.value || ""); // not used in simulation
     const role = $("#role")?.value || "client";
     const name = email ? email.split("@")[0] : (role === "client" ? "Cliente" : "Proveedor");
 
+    // password ignored but ensures field is present
     setSession({ email, role, name });
 
     if(toast){
