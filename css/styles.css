@@ -678,16 +678,20 @@ input:focus, select:focus, textarea:focus{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  padding: 24px 18px 40px;
+  padding: 32px 18px 48px;
   z-index: 1;
   backdrop-filter: blur(0px);
+  background: 
+    radial-gradient(circle at 50% 40%, rgba(37,211,238,.05) 0%, transparent 50%),
+    radial-gradient(circle at 50% 70%, rgba(255,79,216,.03) 0%, transparent 60%);
 }
 
 .heroTL-center{
   text-align:center;
-  max-width: 980px;
-  padding: 36px 18px 22px;
-  animation: fadeInUp 0.8s ease-out;
+  max-width: 1000px;
+  padding: 48px 20px 32px;
+  animation: fadeInUp 0.9s ease-out;
+  perspective: 1000px;
 }
 
 @keyframes fadeInUp {
@@ -702,30 +706,47 @@ input:focus, select:focus, textarea:focus{
 }
 
 .heroTL-kicker{
-  font-size: 12px;
-  letter-spacing: .20em;
-  color: rgba(255,255,255,.78);
-  margin-bottom: 12px;
+  font-size: 13px;
+  letter-spacing: .25em;
+  color: rgba(37,211,238,.85);
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-shadow: 
+    0 0 20px rgba(37,211,238,.4),
+    0 0 40px rgba(37,211,238,.2);
 }
 
 .heroTL-title{
   margin: 0;
-  font-size: clamp(34px, 5vw, 64px);
-  font-weight: 800;
-  color: rgba(255,255,255,.96);
+  font-size: clamp(42px, 7vw, 76px);
+  font-weight: 900;
+  color: rgba(255,255,255,.98);
+  background: linear-gradient(120deg, 
+    rgba(255,255,255,1) 0%,
+    rgba(247,211,123,0.9) 50%,
+    rgba(255,255,255,0.95) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-shadow: 
-    0 4px 20px rgba(0,0,0,.8),
-    0 0 60px rgba(247,211,123,.3);
+    0 0 80px rgba(247,211,123,.4),
+    0 0 120px rgba(255,79,216,.25);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  filter: drop-shadow(0 0 40px rgba(247,211,123,.35)) 
+          drop-shadow(0 0 80px rgba(255,79,216,.2));
 }
 
 .heroTL-sub{
-  margin: 14px auto 0;
-  max-width: 720px;
-  font-size: 15px;
-  line-height: 1.55;
-  color: rgba(255,255,255,.78);
+  margin: 24px auto 0;
+  max-width: 760px;
+  font-size: 16px;
+  line-height: 1.68;
+  color: rgba(255,255,255,.82);
+  font-weight: 300;
+  letter-spacing: 0.3px;
 }
 
 /* Events row */
@@ -734,55 +755,73 @@ input:focus, select:focus, textarea:focus{
   display: grid;
   grid-template-columns: 1fr auto 1fr auto 1fr;
   align-items: start;
-  gap: 18px;
-  margin-top: 24px;
-  padding: 22px 18px;
+  gap: 24px;
+  margin-top: 48px;
+  padding: 32px 18px;
   animation: fadeInUp 0.8s ease-out 0.2s backwards;
 }
 
 .heroTL-divider{
-  width: 1px;
-  height: 92px;
+  width: 2px;
+  height: 110px;
   background: 
     linear-gradient(180deg, 
       rgba(247,211,123,0) 0%,
-      rgba(255,255,255,.28) 50%,
+      rgba(37,211,238,.4) 25%,
+      rgba(255,255,255,.35) 50%,
+      rgba(255,79,216,.4) 75%,
       rgba(255,79,216,0) 100%);
   align-self: center;
+  box-shadow: 
+    0 0 20px rgba(37,211,238,.3),
+    0 0 40px rgba(255,79,216,.2);
 }
 
 .eventTL{
   text-align: center;
-  padding: 10px 10px 0;
-  transition: transform 0.3s ease;
+  padding: 16px 12px 8px;
+  transition: all 0.3s ease;
+  border-radius: 16px;
+  border: 1px solid rgba(37,211,238,.15);
+  background: rgba(37,211,238,.03);
 }
 
 .eventTL:hover {
-  transform: translateY(-4px);
+  transform: translateY(-8px);
+  border-color: rgba(247,211,123,.3);
+  background: rgba(247,211,123,.08);
+  box-shadow: 
+    0 0 30px rgba(247,211,123,.2),
+    0 0 60px rgba(37,211,238,.1);
 }
 
 .eventTL-date{
-  font-size: 12px;
-  letter-spacing: .18em;
-  color: rgba(255,255,255,.78);
+  font-size: 11px;
+  letter-spacing: .20em;
+  color: rgba(37,211,238,.75);
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .eventTL-name{
-  font-size: 22px;
-  font-weight: 800;
-  margin-top: 8px;
-  color: rgba(255,255,255,.96);
-  background: linear-gradient(120deg, rgba(247,211,123,0.6), rgba(37,211,238,0.6));
+  font-size: 24px;
+  font-weight: 850;
+  margin-top: 12px;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, rgba(247,211,123,.95), rgba(37,211,238,.9));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  filter: drop-shadow(0 0 25px rgba(247,211,123,.3)) 
+          drop-shadow(0 0 20px rgba(37,211,238,.2));
 }
 
 .eventTL-loc{
-  margin-top: 8px;
+  margin-top: 10px;
   font-size: 12px;
-  letter-spacing: .14em;
-  color: rgba(255,255,255,.68);
+  letter-spacing: .12em;
+  color: rgba(255,255,255,.7);
+  font-weight: 500;
 }
 
 .eventTL-btn{
@@ -790,23 +829,31 @@ input:focus, select:focus, textarea:focus{
   align-items:center;
   justify-content:center;
   gap: 10px;
-  margin-top: 18px;
-  padding: 12px 26px;
+  margin-top: 20px;
+  padding: 13px 28px;
   border-radius: 999px;
-  background: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.93);
   color: #111;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: .12em;
   font-size: 12px;
-  border: 1px solid rgba(255,255,255,.25);
+  border: 2px solid rgba(247,211,123,.4);
   transition: all 0.3s ease;
-  box-shadow: 0 8px 24px rgba(247,211,123,0.15);
+  box-shadow: 
+    0 8px 24px rgba(247,211,123,0.25),
+    0 0 30px rgba(247,211,123,.15);
+  text-transform: uppercase;
 }
 
 .eventTL-btn:hover{
-  transform: translateY(-2px) scale(1.05);
-  filter: brightness(1.05);
-  box-shadow: 0 12px 32px rgba(247,211,123,0.25);
+  transform: translateY(-4px) scale(1.08);
+  filter: brightness(1.08);
+  box-shadow: 
+    0 12px 40px rgba(247,211,123,0.4),
+    0 0 50px rgba(247,211,123,.25),
+    inset 0 0 20px rgba(247,211,123,.1);
+  border-color: rgba(247,211,123,.7);
+  background: rgba(255,255,255,.98);
 }
 
 /* Floating radio */
@@ -815,21 +862,26 @@ input:focus, select:focus, textarea:focus{
   left: 18px;
   bottom: 18px;
   z-index: 55;
-  border: 1px solid rgba(255,255,255,.15);
-  background: rgba(20,18,24,.85);
-  color: rgba(255,255,255,.92);
+  border: 2px solid rgba(37,211,238,.35);
+  background: rgba(20,18,24,.9);
+  color: rgba(255,255,255,.95);
   border-radius: 999px;
   display:flex;
   align-items:center;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 11px 15px;
   box-shadow: 
     0 18px 70px rgba(0,0,0,.55),
-    0 0 40px rgba(247,211,123,0.1);
+    0 0 35px rgba(37,211,238,.25),
+    0 0 60px rgba(247,211,123,.1),
+    inset 0 0 30px rgba(37,211,238,.05);
   cursor: pointer;
   backdrop-filter: blur(12px);
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   animation: float 3s ease-in-out infinite;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .12em;
 }
 
 /* Allow clicks to pass through the floating radio unless hovered (prevents blocking page buttons) */
@@ -838,16 +890,18 @@ input:focus, select:focus, textarea:focus{
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-10px); }
 }
 
 .radioTL:hover{
-  background: rgba(20,18,24,.95);
-  border-color: rgba(247,211,123,.25);
+  background: rgba(20,18,24,.97);
+  border-color: rgba(247,211,123,.5);
   box-shadow: 
     0 24px 80px rgba(0,0,0,.6),
-    0 0 60px rgba(247,211,123,0.2);
-  transform: translateY(-8px);
+    0 0 60px rgba(37,211,238,.4),
+    0 0 100px rgba(247,211,123,.25),
+    inset 0 0 40px rgba(37,211,238,.1);
+  transform: translateY(-10px) scale(1.05);
 }
 
 .radioTL-x{
@@ -868,8 +922,10 @@ input:focus, select:focus, textarea:focus{
   background:
     radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 55%),
     linear-gradient(135deg, var(--gold1), var(--cyan));
-  box-shadow: 0 0 18px rgba(247,211,123,.20);
-  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 
+    0 0 25px rgba(247,211,123,.35),
+    0 0 50px rgba(37,211,238,.25);
+  animation: pulse 2.5s ease-in-out infinite;
 }
 
 .radioTL-logo{
@@ -889,8 +945,16 @@ input:focus, select:focus, textarea:focus{
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 18px rgba(247,211,123,.20); }
-  50% { box-shadow: 0 0 28px rgba(247,211,123,.35); }
+  0%, 100% { 
+    box-shadow: 
+      0 0 25px rgba(247,211,123,.35),
+      0 0 50px rgba(37,211,238,.25);
+  }
+  50% { 
+    box-shadow: 
+      0 0 40px rgba(247,211,123,.5),
+      0 0 80px rgba(37,211,238,.35);
+  }
 }
 
 .radioTL-text{
